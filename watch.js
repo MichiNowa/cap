@@ -12,7 +12,7 @@ function runCommand(command, args = [], options = {}) {
 // Main function to execute all commands
 async function main() {
 
-  runCommand('npx', ['postcss', './src/tailwind.css', '-o', './public/css/main.min.css', '--watch']);
+  runCommand('npm', ['run', 'watch:tailwind']);
 
   await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for second
 
