@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta author="MichiNowa, ArvinJay, LhilKim">
     <!-- Logo Icon -->
-    <link rel="icon" href="<= URI_PREFIX ?>/images/logo.jpg">
+    <link rel="icon" href="<?= URI_PREFIX ?>/images/logo.jpg">
     <!-- Tailwind CSS (Prefix: tw-) -->
-    <link rel="stylesheet" href="<= URI_PREFIX ?>/css/tailwind.css">
+    <link rel="stylesheet" href="<?= URI_PREFIX ?>/css/tailwind.css">
     <!-- Bootstrap CSS -->
-    <link href="<= URI_PREFIX ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= URI_PREFIX ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="<= URI_PREFIX ?>/bootstrap/icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?= URI_PREFIX ?>/bootstrap/icons/bootstrap-icons.css" rel="stylesheet">
 
     <!--========== CDN ==========-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
@@ -25,11 +25,11 @@
         crossorigin="anonymous"></script> -->
 
     <!--========== CSS ==========-->
-    <link rel="stylesheet" href="<= URI_PREFIX ?>/css/nav.css">
-    <link rel="stylesheet" href="<= URI_PREFIX ?>/css/nav.scss">
+    <link rel="stylesheet" href="<?= URI_PREFIX ?>/css/nav.css">
+    <link rel="stylesheet" href="<?= URI_PREFIX ?>/css/nav.scss">
 
     <!-- Custom CSS -->
-    <link href="<= URI_PREFIX ?>/css/custom.css" rel="stylesheet">
+    <link href="<?= URI_PREFIX ?>/css/custom.css" rel="stylesheet">
 
     <!-- Page Title -->
     <title><?= $page_title ?></title>
@@ -46,7 +46,7 @@
 <!--========== HEADER ==========-->
 <header class="header">
     <div class="header__container">
-        <img src="<= URI_PREFIX ?>/images/profile/<?= $user['profpic'] ?>.jpg" alt="" class="header__img">
+        <img src="<?= URI_PREFIX ?>/images/profile/<?= $user['profpic'] ?>.jpg" alt="" class="header__img">
 
         <span href="#" class="header__logo">SMCC Guidance Center</span>
 
@@ -67,7 +67,7 @@
         <div>
 
             <span class="nav__logo">
-                <img src="<= URI_PREFIX ?>/images/logo.jpg" alt="Guidance Logo" class="rounded-circle" width="50">
+                <img src="<?= URI_PREFIX ?>/images/logo.jpg" alt="Guidance Logo" class="rounded-circle" width="50">
             </span>
             <span class="nav__name nav__logo">
                 <h5 class="nav__logo-name"> SMCC GUIDANCE</h5>
@@ -78,22 +78,22 @@
                 <div class="nav__items">
                     <h3 class="nav__subtitle">Menu</h3>
 
-                    <a href="<= URI_PREFIX ?>/home" class="nav__link active" id="navhome">
+                    <a href="<?= URI_PREFIX ?>/home" class="nav__link active" id="navhome">
                         <i class='bx bx-home nav__icon'></i>
                         <span class="nav__name">Home</span>
                     </a>
 
-                    <a href="<= URI_PREFIX ?>/profile" class="nav__link">
+                    <a href="<?= URI_PREFIX ?>/profile" class="nav__link">
                         <i class='bx bx-user nav__icon'></i>
                         <span class="nav__name">Student's Profile</span>
                     </a>
 
-                    <a href="<= URI_PREFIX ?>/assess" class="nav__link">
+                    <a href="<?= URI_PREFIX ?>/assess" class="nav__link">
                         <i class='bx bxs-check-square nav__icon'></i>
                         <span class="nav__name">Assessment Form</span>
                     </a>
 
-                    <a href="<= URI_PREFIX ?>/feedback" class="nav__link">
+                    <a href="<?= URI_PREFIX ?>/feedback" class="nav__link">
                         <i class='bx bxs-file nav__icon'></i>
                         <span class="nav__name">Feedback</span>
                     </a>
@@ -106,7 +106,7 @@
                     <?php
                     // if (getUnreadNotificationsCount() > 0) {
                         ?>
-                        <!-- <a href="<= URI_PREFIX ?>/notif" class="nav__link position-relative">
+                        <!-- <a href="<?= URI_PREFIX ?>/notif" class="nav__link position-relative">
                             <i class='bx bxs-bell nav__icon'></i>
                             <span class="nav__name">Notification</span>
                             <span class="un-count position-absolute translate-middle-y badge p-1 rounded-pill bg-danger">
@@ -118,7 +118,7 @@
                         <?php
                     // } else {
                         ?>
-                        <a href="<= URI_PREFIX ?>/notif" class="nav__link" id="navnotif">
+                        <a href="<?= URI_PREFIX ?>/notif" class="nav__link" id="navnotif">
                             <i class='bx bxs-bell nav__icon'></i>
                             <span class="nav__name">Notification</span>
                         </a>
@@ -136,7 +136,7 @@
             </div>
         </div>
 
-        <a href="<= URI_PREFIX ?>/api/post/logout" class="nav__link nav__logout">
+        <a href="<?= URI_PREFIX ?>/api/post/logout" class="nav__link nav__logout">
             <i class='bx bx-log-out nav__icon'></i>
             <span class="nav__name">Log Out</span>
         </a>
