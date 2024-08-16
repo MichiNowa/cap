@@ -45,8 +45,11 @@
 <!--========== HEADER ==========-->
 <header class="header">
     <div class="header__container">
-        <img src="<?= URI_PREFIX ?>/images/profile/<?= USER_ID['profpic'] ?? "" ?>.jpg" alt="" class="header__img">
-
+        <?php if (AUTHUSER) { ?>
+            <img src="<?= URI_PREFIX ?>/images/profile/<?= AUTHUSER['profpic'] ?? "" ?>.jpg" alt="" class="header__img">
+        <?php } else { ?>
+            <a href="<?= URI_PREFIX ?>/login" class="header__link">Login</a>
+        <?php } ?>
         <span href="#" class="header__logo">SMCC Guidance Center</span>
 
         <!-- <div class="header__search">
