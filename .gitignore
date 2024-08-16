@@ -1,3 +1,4 @@
 /var/lib/mysql
 composer.lock
 package-lock.json
+/node_modules

@@ -23,7 +23,7 @@ match ($pageuri) {
     '/api/post/signup' => showAPI('actions', 'POST'),
     '/api/post/logout' => showAPI('actions', 'POST'),
     '/api/post/updateprofile' => showAPI('actions', 'POST'),
-    default => showPublicFolder('assets/static'),
+    default => showPublicFolder('assets'),
 };
 
 unset($_SESSION['error']);

@@ -38,10 +38,10 @@ function showFile($filepath) {
     }
 }
 
-function showPublicFolder($filepath) {
-    if (file_exists($filepath) && is_dir($filepath)) {
+function showPublicFolder($basepath) {
+    if (file_exists($basepath) && is_dir($basepath)) {
         $pageuri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $file = implode(DIRECTORY_SEPARATOR, [$filepath, $pageuri]);
+        $file = implode(DIRECTORY_SEPARATOR, [$basepath, "public", $pageuri]);
     }
     showFile($file);
 }

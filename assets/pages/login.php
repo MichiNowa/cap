@@ -2,7 +2,7 @@
 <div class="container fluid text-center justify-content-center">
     <div class="row">
         <div class="col-12 mt-3">
-            <img class="mb-4" src="assets/images/logo.jpg" alt="" height="200vh">
+            <img class="mb-4" src="<= URI_PREFIX ?>/images/logo.jpg" alt="" height="200vh">
         </div>
     </div>
     <div class="row justify-content-center">

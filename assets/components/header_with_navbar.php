@@ -46,7 +46,7 @@
 <!--========== HEADER ==========-->
 <header class="header">
     <div class="header__container">
-        <img src="assets/images/profile/<?= $user['profpic'] ?>.jpg" alt="" class="header__img">
+        <img src="<= URI_PREFIX ?>/images/profile/<?= $user['profpic'] ?>.jpg" alt="" class="header__img">
 
         <span href="#" class="header__logo">SMCC Guidance Center</span>
 
@@ -67,7 +67,7 @@
         <div>
 
             <span class="nav__logo">
-                <img src="assets/images/logo.jpg" alt="Guidance Logo" class="rounded-circle" width="50">
+                <img src="<= URI_PREFIX ?>/images/logo.jpg" alt="Guidance Logo" class="rounded-circle" width="50">
             </span>
             <span class="nav__name nav__logo">
                 <h5 class="nav__logo-name"> SMCC GUIDANCE</h5>
