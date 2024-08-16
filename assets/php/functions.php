@@ -33,7 +33,7 @@ function showFile($filepath) {
         finfo_close($finfo);
 
         // Fallback for JavaScript files
-        if (preg_match('/\.(js)$/', $filepath)) {
+        if (preg_match('/\.(js)$/', $filepath) || preg_match('/\.(mjs)$/', $filepath)) {
             $mime_type = 'application/javascript;charset=UTF-8';
         } else if (preg_match('/\.(css)$/', $filepath)) {
             $mime_type = 'text/css;charset=UTF-8';
