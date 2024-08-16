@@ -3,7 +3,6 @@ version: '3.8'
 services:
   app:
     image: mcr.microsoft.com/devcontainers/php:latest
-    container_name: php-container
     volumes:
       - .:/workspace
     command: /bin/bash -c "composer --version || (curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer) && /bin/bash"
@@ -18,7 +17,6 @@ services:
 
   db:
     image: mariadb:latest
-    container_name: mariadb-container
     environment:
       MYSQL_ROOT_PASSWORD: capPassword
       MYSQL_DATABASE: gcms
