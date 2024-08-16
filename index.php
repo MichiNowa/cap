@@ -15,6 +15,7 @@ $pagesearchparams = $_GET;
 //display pages from function
 try {
     match ($pageuri) {
+        '/test' => throw new Exception('ERROR!! Page not found!!'),
         '/' => showPage('home', 'Home', [], 'auth'),
         '/profile' => showPage('profile', 'Profile', ['user' => AUTHUSER], 'auth'),
         '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => AUTHUSER], 'auth'),
@@ -29,7 +30,7 @@ try {
         default => showPublicFolder('assets'),
     };
 } catch (Throwable $e) {
-    showPage('error', 'Internal Server Error', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()], 'error');
+    showPage('error', 'Internal Server Error', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
 }
 
 unset($_SESSION['error']);
