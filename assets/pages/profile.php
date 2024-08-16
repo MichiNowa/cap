@@ -1,6 +1,4 @@
-<?php global $user; ?>
-
-<h1> profile</h1>
+<h1>profile</h1>
 
 <style>
     * {

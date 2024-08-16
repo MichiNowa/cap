@@ -4,7 +4,9 @@
 
 require_once 'assets/php/functions.php';
 if (isset($_SESSION['Auth'])) {
-    $user = getUser($_SESSION['userdata']['id']);
+    define('USER_ID', getUser($_SESSION['userdata']['id']));
+} else {
+    define('USER_ID', null);
 }
 $pageuri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $pagesearchparams = $_GET;
@@ -13,10 +15,10 @@ $pagesearchparams = $_GET;
 //display pages from funtcion
 match ($pageuri) {
     '/' => showPage('home', 'Home', [], 'auth'),
-    '/profile' => showPage('profile', 'Profile', ['user' => $user], 'auth'),
-    '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => $user], 'auth'),
-    '/feedback' => showPage('feedback', 'Feedback Form', ['user' => $user], 'auth'),
-    '/notif' => showPage('notif', 'Notification', ['user' => $user], 'auth'),
+    '/profile' => showPage('profile', 'Profile', ['user' => USER_ID], 'auth'),
+    '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => USER_ID], 'auth'),
+    '/feedback' => showPage('feedback', 'Feedback Form', ['user' => USER_ID], 'auth'),
+    '/notif' => showPage('notif', 'Notification', ['user' => USER_ID], 'auth'),
     '/signup' => showPage('signup', 'Sign Up'),
     '/login' => showPage('login', 'Login'),
     '/api/post/login' => showAPI('actions', 'POST'),

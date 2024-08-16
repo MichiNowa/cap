@@ -1,5 +1,3 @@
-<?php global $user;?>
-
 <div class="container justify-content-center text-center box">
     <div class="row">
         <div class="col mt-4">

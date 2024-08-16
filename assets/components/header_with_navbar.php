@@ -1,4 +1,3 @@
-<?php global $user; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +45,7 @@
 <!--========== HEADER ==========-->
 <header class="header">
     <div class="header__container">
-        <img src="<?= URI_PREFIX ?>/images/profile/<?= $user['profpic'] ?? "" ?>.jpg" alt="" class="header__img">
+        <img src="<?= URI_PREFIX ?>/images/profile/<?= USER_ID['profpic'] ?? "" ?>.jpg" alt="" class="header__img">
 
         <span href="#" class="header__logo">SMCC Guidance Center</span>
 
