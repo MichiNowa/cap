@@ -29,5 +29,5 @@
     "DB_PASS": "capPassword"
   },
   // Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "composer --version || (curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer) && sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+  "postCreateCommand": "composer --version || (curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer) && sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
 }
