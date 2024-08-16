@@ -1,9 +1,18 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/php:latest",
-  "features": {
-    "ghcr.io/devcontainers/features/node:1.5.0": {
-      "version": "lts"
-    }
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "containerEnv": {
+    "DB_HOST": "db",
+    "DB_DATABASE": "gcms",
+    "DB_USER": "gcms",
+    "DB_PASS": "capPassword"
+  },
+  "remoteEnv": {
+    "DB_HOST": "db",
+    "DB_DATABASE": "gcms",
+    "DB_USER": "gcms",
+    "DB_PASS": "capPassword"
   },
   "postCreateCommand": "composer --version || (curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer)"
 }

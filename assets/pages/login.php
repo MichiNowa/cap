@@ -1,8 +1,4 @@
-<style>
-
-</style>
 <!-- login form -->
-
 <div class="container fluid text-center justify-content-center">
     <div class="row">
         <div class="col-12 mt-3">
@@ -12,7 +8,7 @@
     <div class="row justify-content-center">
         <h3>SMCC GUIDANCE CENTER</h3>
         <div class="col-sm-10 col-lg-4 bg-white border p-4 box">
-            <form method="post" action="assets/php/actions.php?login">
+            <form method="post" action="<= URI_PREFIX ?>/api/post/login">
                 <h1 class="h5 mb-3 text-muted">Login</h1>
 
                 <div class="form-floating">
@@ -35,7 +31,7 @@
 
 
                 <div class="col-12 mt-3 text-center">
-                    <span><small>Forgot Password? <a href="?signup" class="text-decoration-none">Click
+                    <span><small>Forgot Password? <a href="<= URI_PREFIX ?>/signup" class="text-decoration-none">Click
                                 Here</a></small></span>
                 </div>
                 <div class="mt-3 d-flex justify-content-between align-items-center">
@@ -44,7 +40,7 @@
             </form>
         </div>
         <div class="col-12 mt-3 text-center">
-            <span><small>Don't Have an Account? <a href="?signup" class="text-decoration-none">Register
+            <span><small>Don't Have an Account? <a href="<= URI_PREFIX ?>/signup" class="text-decoration-none">Register
                         Here</a></small></span>
         </div>
     </div>

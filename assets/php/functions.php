@@ -4,11 +4,47 @@ $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die("database is not
 
 
 //function for showing pages
-function showPage($page, $data = "")
-{
-    include ("assets/pages/$page.php");
+
+function showPage($view, $page_title, $data = [], $layout = 'guest') {
+    // Extract the data array into variables
+    extract($data);
+    // Start output buffering
+    ob_start();
+    // Include the view file
+    require_once "assets/pages/{$view}.php";
+    // Get the captured output and clear the buffer
+    $content = ob_get_clean();
+    $page_title = APP_TITLE . " - " . $page_title;
+    // Include the layout file
+    require_once "assets/layouts/{$layout}.php";
 }
 
+function showAPI($endpoint, $method = 'GET', $data = []) {
+    if ($_SERVER['REQUEST_METHOD'] == $method) {
+        extract($data);
+        require_once "assets/api/{$endpoint}.php";
+    }
+}
+
+function showFile($filepath) {
+    if (!empty($filepath) && file_exists($filepath)) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($finfo, $filepath);
+        finfo_close($finfo);
+        header("Content-Type: $mime_type");
+        readfile($filepath);
+    } else {
+        showPage('notFound404', 'Page Not Found');
+    }
+}
+
+function showPublicFolder($filepath) {
+    if (file_exists($filepath) && is_dir($filepath)) {
+        $pageuri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $file = implode(DIRECTORY_SEPARATOR, [$filepath, $pageuri]);
+    }
+    showFile($file);
+}
 
 
 //function for show errors
@@ -286,6 +322,4 @@ function updateProfile($data, $imagedata)
     return mysqli_query($db, $query);
 
 }
-
-
 ?>

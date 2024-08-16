@@ -1,0 +1,18 @@
+{
+  "name": "cap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build:tailwind": "postcss assets/tailwind/tailwind.css -o assets/css/tailwind.css",
+    "build:apache": "sudo cp -r assets /var/www/html/assets && sudo cp index.php /var/www/html/index.php",
+    "dev": "php -S localhost:8000 index.php"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10"
+  }
+}

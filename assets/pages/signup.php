@@ -1,6 +1,3 @@
-<style>
-    body {}
-</style>
 <!-- regiuster form -->
 <div class="container fluid text-center justify-content-center">
     <div class="row">
@@ -11,7 +8,7 @@
     <div class="row justify-content-center">
         <h3>SMCC GUIDANCE CENTER</h3>
         <div class="col-sm-10 col-lg-4 bg-white border p-4 box">
-            <form method="post" action="assets/php/actions.php?signup">
+            <form method="post" action="<= URI_PREFIX ?>/api/post/signup">
                 <h1 class="h5 mb-3 text-muted">Register Account</h1>
                 <?php
                 if (isset($_GET['newuser'])) {
@@ -83,7 +80,7 @@
             </form>
         </div>
         <div class="col-12 mt-3 text-center">
-            <span><small>Already Have an Account? <a href="?login" class="text-decoration-none">Login Here
+            <span><small>Already Have an Account? <a href="<= URI_PREFIX ?>/login" class="text-decoration-none">Login Here
                         ?</a></small></span>
         </div>
     </div>
