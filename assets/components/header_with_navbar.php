@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta author="MichiNowa, ArvinJay, LhilKim">
     <!-- Logo Icon -->
-    <link rel="icon" href="assets/images/logo.jpg">
+    <link rel="icon" href="<= URI_PREFIX ?>/images/logo.jpg">
     <!-- Tailwind CSS (Prefix: tw-) -->
-    <link rel="stylesheet" href="assets/css/tailwind.css">
+    <link rel="stylesheet" href="<= URI_PREFIX ?>/css/tailwind.css">
     <!-- Bootstrap CSS -->
-    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<= URI_PREFIX ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="assets/bootstrap/icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<= URI_PREFIX ?>/bootstrap/icons/bootstrap-icons.css" rel="stylesheet">
 
     <!--========== CDN ==========-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
@@ -25,11 +25,11 @@
         crossorigin="anonymous"></script> -->
 
     <!--========== CSS ==========-->
-    <link rel="stylesheet" href="assets/css/nav.css">
-    <link rel="stylesheet" href="assets/css/nav.scss">
+    <link rel="stylesheet" href="<= URI_PREFIX ?>/css/nav.css">
+    <link rel="stylesheet" href="<= URI_PREFIX ?>/css/nav.scss">
 
     <!-- Custom CSS -->
-    <link href="assets/css/custom.css" rel="stylesheet">
+    <link href="<= URI_PREFIX ?>/css/custom.css" rel="stylesheet">
 
     <!-- Page Title -->
     <title><?= $page_title ?></title>
