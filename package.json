@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build:tailwind": "postcss assets/tailwind/tailwind.css -o assets/css/tailwind.css",
-    "build:apache": "sudo cp -r assets /var/www/html/assets && sudo cp index.php /var/www/html/index.php",
+    "build:apache": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html",
     "dev": "php -S localhost:8000 index.php"
   },
   "author": "",
