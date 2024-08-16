@@ -11,9 +11,9 @@
     <!-- Tailwind CSS (Prefix: tw-) -->
     <link rel="stylesheet" href="<?= URI_PREFIX ?>/css/tailwind.css">
     <!-- Bootstrap CSS -->
-    <link href="<?= URI_PREFIX ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= URI_PREFIX ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="<?= URI_PREFIX ?>/bootstrap/icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?= URI_PREFIX ?>/vendor/bootstrap/icons/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?= URI_PREFIX ?>/css/custom.css" rel="stylesheet">
 
