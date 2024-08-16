@@ -29,7 +29,7 @@ try {
         default => showPublicFolder('assets'),
     };
 } catch (Throwable $e) {
-    showPage('error', 'Internal Server Error', ['error' => $e->getMessage()]);
+    showPage('error', 'Internal Server Error', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()], 'error');
 }
 
 unset($_SESSION['error']);
