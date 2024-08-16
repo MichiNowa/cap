@@ -7,7 +7,7 @@ const passphrase = 'smcc';
 
 const options = {
   key: fs.readFileSync(path.join(__dirname, 'cert', 'server.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'cert', 'server.crt')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert', 'server.csr')),
   passphrase: passphrase
 };
 

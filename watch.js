@@ -20,7 +20,7 @@ async function main() {
   runCommand('php', ['-S', 'localhost:8000', 'index.php']);
 
   await new Promise((resolve) => setTimeout(resolve, 2000));
-  runCommand('node', ['proxy.js']);
+  runCommand('node', ['https.js']);
 }
 
 // Execute the main function
