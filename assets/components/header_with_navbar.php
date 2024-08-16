@@ -46,7 +46,7 @@
 <!--========== HEADER ==========-->
 <header class="header">
     <div class="header__container">
-        <img src="<?= URI_PREFIX ?>/images/profile/<?= $user['profpic'] ?>.jpg" alt="" class="header__img">
+        <img src="<?= URI_PREFIX ?>/images/profile/<?= $user['profpic'] ?? "" ?>.jpg" alt="" class="header__img">
 
         <span href="#" class="header__logo">SMCC Guidance Center</span>
 

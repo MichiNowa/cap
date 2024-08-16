@@ -1,7 +1,7 @@
 <?php
 session_start();
 define('APP_TITLE', $_ENV['APP_TITLE'] ?? "SMCC");
-define('URI_PREFIX', $_ENV['URI_PREFIX'] ?? "/" . basename(__DIR__));
+define('URI_PREFIX', $_ENV['URI_PREFIX'] ?? "/" . basename(dirname("assets/")));
 
 // connect to dataabse 
 define('DB_NAME', $_ENV['DB_NAME'] ?? 'gcms');
