@@ -1,0 +1,18 @@
+/*========== GOOGLE FONTS ==========*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+* {
+    font-family: 'Poppins', sans-serif, "Helvetica Neue";
+}
+
+.box {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-floating {
+    color: rgb(99, 99, 99);
+}
+
+/* .nav__link {
+    cursor: pointer;
+} */
