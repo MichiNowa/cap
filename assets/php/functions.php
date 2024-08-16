@@ -37,6 +37,8 @@ function showFile($filepath) {
             $mime_type = 'application/javascript;charset=UTF-8';
         } else if (preg_match('/\.(css)$/', $filepath)) {
             $mime_type = 'text/css;charset=UTF-8';
+        } else if (preg_match('/\.(json)$/', $filepath)) {
+            $mime_type = 'application/json;charset=UTF-8';
         }
         header("Content-Type: $mime_type");
         readfile($filepath);
