@@ -1,7 +1,7 @@
 <?php
 
 // this page serves as the initial page
-
+require 'vendor/autoload.php';
 require_once 'assets/php/functions.php';
 if (isset($_SESSION['Auth'])) {
     define('AUTHUSER', getUser($_SESSION['userdata']['id']));

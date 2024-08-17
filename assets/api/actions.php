@@ -6,14 +6,15 @@ if (isset($_GET['signup'])) {
     $response = validateSignupForm($_POST);
     if ($response['status']) {
         if (createUser($_POST)) {
-            header('Location: {URI_PREFIX}/signup?newuser');
+            $_SESSION['newuser'] = true;
+            back();
         } else {
             echo "<script>alert('Something went wrong')</script>";
         }
     } else {
         $_SESSION['error'] = $response;
         $_SESSION['formdata'] = $_POST;
-        header("Location: {URI_PREFIX}/signup");
+        back();
     }
 }
 
@@ -25,11 +26,11 @@ if (isset($_GET['login'])) {
     if ($response['status']) {
         $_SESSION['Auth'] = true;
         $_SESSION['userdata'] = $response['user'];
-        header("Location: {URI_PREFIX}/");
+        redirect("/");
     } else {
         $_SESSION['error'] = $response;
         $_SESSION['formdata'] = $_POST;
-        header("Location: {URI_PREFIX}/login");
+        back();
     }
 }
 
@@ -38,5 +39,5 @@ if (isset($_GET['login'])) {
 //for logout the user
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: {URI_PREFIX}/');
+    redirect("/");
 }

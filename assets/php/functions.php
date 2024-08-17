@@ -1,10 +1,13 @@
 <?php
 require_once 'config.php';
-$db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die("database is not connected");
 
+use Smcc\Gcms\orm\Database;
+use Smcc\Gcms\orm\models\Users;
+
+// initialize the database connection
+Database::getInstance();
 
 //function for showing pages
-
 function showPage($view, $page_title, $data = [], $layout = 'guest') {
     // Extract the data array into variables
     extract($data);
@@ -56,6 +59,27 @@ function showPublicFolder($basepath) {
 }
 
 
+// function for back to previous page
+function back($status = 302) {
+    if (isset($_SESSION['prev_url'])) {
+        $previousUrl = $_SESSION['prev_url'];
+        unset($_SESSION['prev_url']);
+        header("Location: {URI_PREFIX}$previousUrl", true, $status);
+        exit;
+    } else {
+        // Fallback URL if no previous URL is found
+        header("Location: {URI_PREFIX}/", true, $status);
+        exit;
+    }
+}
+
+// function for redirect to specific page
+function redirect($pathname, $status = 302)
+{
+    header("Location: {URI_PREFIX}$pathname", true, $status);
+    exit;
+}
+
 //function for show errors
 function showError($field)
 {
@@ -86,38 +110,25 @@ function showFormData($field)
 //for checking duplicate email
 function isEmailRegistered($email)
 {
-    global $db;
-    $query = "SELECT count(*) as row FROM users WHERE email='$email'";
-    $run = mysqli_query($db, $query);
-    $return_data = mysqli_fetch_assoc($run);
-    return $return_data['row'];
+    return Users::getRowCount(["email" => $email]);
 }
 
 //for checking duplicate studentid
 function isUsernameRegistered($studentid)
 {
-    global $db;
-    $query = "SELECT count(*) as row FROM users WHERE studentid='$studentid'";
-    $run = mysqli_query($db, $query);
-    $return_data = mysqli_fetch_assoc($run);
-    return $return_data['row'];
+    return Users::getRowCount(["id" => $studentid]);
 }
 
 //for checking duplicate studentid by other
-function isUsernameRegisteredByOther($studentid)
+function isUsernameRegisteredByOther($username)
 {
-    global $db;
-    $user_id = $_SESSION['userdata']['id'];
-    $query = "SELECT count(*) as row FROM users WHERE studentid='$studentid' && id!=$studentid";
-    $run = mysqli_query($db, $query);
-    $return_data = mysqli_fetch_assoc($run);
-    return $return_data['row'];
+    return Users::getRowCount(["username" => $username]);
 }
 
 //for validating the signup form
 function validateSignupForm($form_data)
 {
-    $response = array();
+    $response = [];
     $response['status'] = true;
 
     if (!$form_data['password']) {
@@ -167,7 +178,7 @@ function validateSignupForm($form_data)
 //for validate the login form
 function validateLoginForm($form_data)
 {
-    $response = array();
+    $response = [];
     $response['status'] = true;
     $blank = false;
 
@@ -203,15 +214,14 @@ function checkUser($login_data)
 {
     global $db;
     $studentid = $login_data['studentid'];
-    $password = md5($login_data['password']);
+    $password = password_hash($login_data['password'], PASSWORD_DEFAULT);
     $query = "SELECT * FROM users WHERE studentid='$studentid' && pass='$password'";
     $run = mysqli_query($db, $query);
-    $data['user'] = mysqli_fetch_assoc($run) ?? array();
+    $data['user'] = mysqli_fetch_assoc($run) ?? [];
     if (count($data['user']) > 0) {
         $data['status'] = true;
     } else {
         $data['status'] = false;
-
     }
 
     return $data;

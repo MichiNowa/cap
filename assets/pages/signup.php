@@ -11,10 +11,11 @@
             <form method="post" action="<?= URI_PREFIX ?>/api/post/signup">
                 <h1 class="h5 mb-3 text-muted">Register Account</h1>
                 <?php
-                if (isset($_GET['newuser'])) {
+                if (isset($_SESSION['newuser'])) {
                     ?>
                     <p style="text-align:center;" class="text-light bg-success rounded-1 p-1">Registration Successful</p>
                     <?php
+                    unset($_SESSION['newuser']);
                 }
                 ?>
                 <div class="form-floating mt-1">

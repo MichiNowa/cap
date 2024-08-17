@@ -501,9 +501,6 @@ video {
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
 }
-.tw-mt-4 {
-  margin-top: 1rem;
-}
 .tw-mt-2 {
   margin-top: 0.5rem;
 }
@@ -523,11 +520,11 @@ video {
 .tw-p-4 {
   padding: 1rem;
 }
-.tw-py-16 {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-}
 .tw-px-16 {
   padding-left: 4rem;
   padding-right: 4rem;
+}
+.tw-py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
