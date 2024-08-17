@@ -94,7 +94,7 @@ class Database {
   public function delete(string $table, array $condition): bool
   {
     $this->db->beginTransaction();
-    $set = array_map(fn($k) => "?", array_keys($condition));
+    $set = array_map(fn($k) => "$k=?", array_keys($condition));
     $stmt = $this->db->prepare("DELETE FROM $table WHERE ". implode(" AND ", $set));
     if ($stmt->execute(array_values($condition))) {
       $this->db->commit();
