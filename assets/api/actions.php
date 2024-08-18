@@ -8,7 +8,9 @@ if (PAGE_URI === pathname('/api/post/signup')) {
       $_SESSION['newuser'] = true;
       back();
     } else {
-      echo "<script>alert('Something went wrong')</script>";
+      $_SESSION['error'] = "Failed to register account. Please try again.";
+      $_SESSION['formdata'] = $_POST;
+      back();
     }
   } else {
     $_SESSION['error'] = $response;

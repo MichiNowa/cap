@@ -8,17 +8,17 @@
     <div class="row justify-content-center">
         <h3>SMCC GUIDANCE CENTER</h3>
         <div class="col-sm-10 col-lg-4 bg-white border p-4 box">
-            <div id="signup-form" class="w-100 <?= (showFormData('studentid'))&& showFormData('first_name')&& showFormData('middle_initial') && showFormData('last_name') && showFormData('email') ? "" : "tw-hidden" ?>">
+            <?php
+                if (isset($_SESSION['newuser'])) {
+                    ?>
+                    <p style="text-align:center;" class="text-light bg-success rounded-1 p-1">Registration Successful</p>
+                    <?php
+                }
+            ?>
+            <div id="signup-form" class="w-100 <?= (showFormData('studentid')) && showFormData('first_name')&& showFormData('middle_initial') && showFormData('last_name') && showFormData('email') ? "" : "tw-hidden" ?>">
                 <form method="post" action="<?= pathname('api/post/signup') ?>">
                     <h1 class="h5 mb-3 text-muted">Register Account</h1>
-                    <?php
-                    if (isset($_SESSION['newuser'])) {
-                        ?>
-                        <p style="text-align:center;" class="text-light bg-success rounded-1 p-1">Registration Successful</p>
-                        <?php
-                        unset($_SESSION['newuser']);
-                    }
-                    ?>
+                    
                     <div class="form-floating mt-1">
                         <input type="text" name="studentid" id="studentid" value="<?= showFormData('studentid') ?>"
                             class="form-control rounded-3 " placeholder="" readonly>
@@ -53,6 +53,18 @@
                         <label for="email">G-Suite Email</label>
                     </div>
                     <?= showError('email') ?>
+
+                    <div class="form-floating mt-2">
+                        <select name="gender" id="gender" value="<?= showFormData('gender') ?>"
+                            class="form-select rounded-3 " placeholder="" readonly>
+                            <option disabled>Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <label for="gender">Gender</label>
+                    </div>
+                    <?= showError('gender') ?>
+
                     <div class="form-floating mt-1 position-relative">
                         <input type="password" name="password" class="form-control rounded-3 " id="floatingPassword"
                             placeholder="Password">
@@ -66,7 +78,7 @@
                     </div>
                 </form>
             </div>
-            <div id="qrscanner-root" class="tw-w-full tw-min-h-[300px] tw-flex tw-justify-center tw-items-center <?= (showFormData('studentid'))&& showFormData('first_name')&& showFormData('middle_initial') && showFormData('last_name') && showFormData('email') ? "tw-hidden" : "" ?>">
+            <div id="qrscanner-root" class="tw-w-full tw-min-h-[300px] tw-flex tw-justify-center tw-items-center <?= (showFormData('studentid')) && showFormData('first_name')&& showFormData('middle_initial') && showFormData('last_name') && showFormData('email') ? "tw-hidden" : "" ?>">
                 <?= showLoading() ?>
             </div>
         </div>
@@ -94,4 +106,21 @@
             box.setAttribute("data-show", "false");
         }
     }
+    function toastSuccess() {
+        Swal.fire({
+            position: 'top-end',
+            icon:'success',
+            title: 'Registration Successful',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+        }).then(() => {
+            location.href = '<?= pathname('login') ?>';
+        })
+    }
+    <?php if (isset($_SESSION['newuser'])) { ?>
+        toastSuccess();
+    <?php 
+        unset($_SESSION['newuser']);
+    } ?>
 </script>

@@ -6,7 +6,7 @@ use DateTime;
 
 class Users extends Model
 {
-  public int $id;
+  public ?int $id;
   public string $username;
   public string $password;
   public string $first_name;
@@ -15,8 +15,34 @@ class Users extends Model
   public string $gender;
   public string $email;
   public string $profile_pic;
-  public string $created_at;
-  public string $updated_at;
+  public ?string $created_at;
+  public ?string $updated_at;
+
+  public function __construct()
+  {
+    foreach (self::getCreateTable() as $column) {
+      $col = explode(" ", $column)[0];
+      try {
+        $this->{$col} = null;
+      } catch (\Throwable $e) {
+        try {
+          $this->{$col} = '';
+        } catch (\Throwable $e) {
+          $this->{$col} = 0;
+        }
+      }
+    }
+  }
+
+  public function setPassword(string $password)
+  {
+    $this->password = password_hash($password, PASSWORD_DEFAULT);
+  }
+
+  public function checkPassword(string $password): bool
+  {
+    return password_verify($password, $this->password);
+  }
 
   public function getId(): int
   {

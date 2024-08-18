@@ -14,12 +14,16 @@
     <link href="<?= pathname('vendor/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="<?= pathname('vendor/bootstrap/icons/bootstrap-icons.css') ?>" rel="stylesheet">
+    <!-- Sweetalert2 CSS -->
+    <link href="<?= pathname('vendor/sweetalert2/sweetalert2.min.css')?>" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?= pathname('css/custom.css') ?>" rel="stylesheet">
 
     <!-- Page Title -->
     <title><?= $page_title ?></title>
 
+    <!-- Sweetalert2 JS -->
+    <script src="<?= pathname('vendor/sweetalert2/sweetalert2.min.js') ?>"></script>
 </head>
 
 <body>

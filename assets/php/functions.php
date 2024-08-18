@@ -110,7 +110,7 @@ function redirect($pathname, $status = 302)
 }
 
 //function for getting desired pathname
-function pathname(...$path)
+function pathname(...$path): string
 {
   $paths = array_map(fn($p) => $p[0] === "/" ? substr($p, 1) : $p, $path);
   return implode("/", [URI_PREFIX, ...$paths]);
@@ -214,6 +214,11 @@ function validateSignupForm($form_data)
     $response['msg'] = "Please enter your first name";
     $response['status'] = false;
     $response['field'] = 'first_name';
+  }
+  if (!$form_data['gender']) {
+    $response['msg'] = "Please enter your gender";
+    $response['status'] = false;
+    $response['field'] = 'gender';
   }
   if (isEmailRegistered($form_data['email'])) {
     $response['msg'] = "Oops! Email is already in-use";
@@ -322,19 +327,16 @@ function getSidebarLinks($role)
 //for creating new user
 function createUser($data)
 {
-  global $db;
-  $studentid = mysqli_real_escape_string($db, $data['studentid']);
-  $first_name = mysqli_real_escape_string($db, $data['first_name']);
-  $last_name = mysqli_real_escape_string($db, $data['last_name']);
-  // $gender = $data['gender'];
-  $email = mysqli_real_escape_string($db, $data['email']);
-  $password = mysqli_real_escape_string($db, $data['password']);
-  $password = md5($password);
-  $profpic = md5("default_profile.jpg");
-
-  $query = "INSERT INTO users (studentid, fname, lname, email, pass, profpic) ";
-  $query .= "VALUES ('$studentid','$first_name','$last_name','$email','$password', '$profpic')";
-  return mysqli_query($db, $query);
+  $user = new Users();
+  $user->username = $data['studentid'];
+  $user->first_name = $data['first_name'];
+  $user->middle_initial = $data['middle_initial'];
+  $user->last_name = $data['last_name'];
+  $user->email = $data['email'];
+  $user->gender = $data['gender'];
+  $user->profile_pic = pathname("images/default_profile.jpg");
+  $user->setPassword($data['password']);
+  return $user->save();
 }
 
 

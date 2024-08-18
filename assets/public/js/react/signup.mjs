@@ -1,5 +1,5 @@
 import { IDRegExFormat } from "/js/react/global.mjs";
-import { React, ReactDOM, ReactQrScanner } from "/js/react/imports.mjs";
+import { React, ReactDOM, ReactQrScanner, Swal } from "/js/react/imports.mjs";
 
 const signupForm = $('#signup-form');
 const studentIDInput = $('input#studentid');
@@ -37,6 +37,12 @@ function QrScanner() {
       .then(({ data }) => {
         if (data) {
           // show exists data
+          Swal.fire({
+            title: 'Student Already Registered',
+            text: `Student ID: ${studentid} \nFull Name: ${fullname}`,
+            icon: 'info',
+            confirmButtonText: 'Okay'
+          });
         } else {
           const splitted = fullname.split(" ");
           let fname = "", mi, lname = "", email;

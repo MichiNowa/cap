@@ -611,6 +611,10 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(134 239 172 / var(--tw-bg-opacity));
 }
+.tw-bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
 .tw-object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -631,4 +635,8 @@ video {
 }
 .tw-pr-1 {
   padding-right: 0.25rem;
+}
+.tw-text-gray-200 {
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
 }
