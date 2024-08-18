@@ -17,20 +17,6 @@
     3306,
     3000
   ],
-  "containerEnv": {
-    "DB_HOST": "db",
-    "DB_DATABASE": "gcms",
-    "DB_USER": "gcms",
-    "DB_PASS": "capPassword",
-    "URI_PREFIX": ""
-  },
-  "remoteEnv": {
-    "DB_HOST": "db",
-    "DB_DATABASE": "gcms",
-    "DB_USER": "gcms",
-    "DB_PASS": "capPassword",
-    "URI_PREFIX": ""
-  },
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": "composer --version || (curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer) && sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html && composer install && npm install"
 }
