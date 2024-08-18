@@ -91,6 +91,11 @@ function redirect($pathname, $status = 302)
     exit;
 }
 
+function assets(...$path)
+{
+    return implode("/", [URI_PREFIX, ...$path]);
+}
+
 //function for show errors
 function showError($field)
 {
