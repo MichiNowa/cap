@@ -9,15 +9,10 @@ require WORKSPACE_DIR . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 try {
-// use dotenv
-
 // Initialize and load the .env file
 $dotenv = Dotenv::createImmutable(__DIR__, [".env", ".env.local"]);
 $dotenv->load();
-} catch (Throwable $e) {
-  print_r($e);
-  exit;
-}
+} catch (Throwable $e) {}
 
 require_once WORKSPACE_DIR . '/assets/php/functions.php';
 
@@ -32,7 +27,7 @@ try {
   define('SIDEBAR_LINKS', getSidebarLinks(!is_null(AUTHUSER) ? AUTHUSER->role : null));
 
   //display pages from function
-  match (PAGE_URI) {
+  match (CLEARED_PAGE_URI) {
     '/test' => throw new Exception('ERROR!! Page not found!!'),
     '/' => redirect('/login'),
     '/home' => showPage('home', 'Home', ['user' => AUTHUSER], 'auth', ['auth']),

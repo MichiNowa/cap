@@ -1,7 +1,11 @@
 <?php
 session_start();
 
+define('APP_TITLE', $_ENV['APP_TITLE'] ?? "SMCC");
+
+define('URI_PREFIX', $_ENV['URI_PREFIX'] ?? "/" . basename(dirname(dirname(__DIR__))));
 define('PAGE_URI', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+define('CLEARED_PAGE_URI', str_replace(URI_PREFIX, "", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
 
 if ($_SERVER['REQUEST_METHOD'] == "GET" && !str_starts_with(PAGE_URI, "/api")) {
   // check if uri is does not have file extension
@@ -13,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && !str_starts_with(PAGE_URI, "/api")) {
     $_SESSION['prev_url'] = $_SERVER['REQUEST_URI'];
   }
 }
-define('APP_TITLE', $_ENV['APP_TITLE'] ?? "SMCC");
-define('URI_PREFIX', $_ENV['URI_PREFIX'] ?? "/" . basename(dirname(dirname(__DIR__))));
 
 // connect to dataabse
 define('DB_NAME', $_ENV['DB_NAME'] ?? 'gcms');

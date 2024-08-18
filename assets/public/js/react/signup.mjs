@@ -1,5 +1,5 @@
-import { IDRegExFormat } from "/js/react/global.mjs";
-import { React, ReactDOM, ReactQrScanner, Swal } from "/js/react/imports.mjs";
+import { IDRegExFormat } from "./global.mjs";
+import { React, ReactDOM, ReactQrScanner, Swal } from "./imports.mjs";
 
 const signupForm = $('#signup-form');
 const studentIDInput = $('input#studentid');

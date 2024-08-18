@@ -77,7 +77,7 @@ function showFile($filepath)
 function showPublicFolder($basepath)
 {
   if (file_exists($basepath) && is_dir($basepath)) {
-    $pageuri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $pageuri = CLEARED_PAGE_URI;
     $file = implode(DIRECTORY_SEPARATOR, [$basepath, "public", $pageuri]);
   }
   showFile($file);
