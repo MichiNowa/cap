@@ -7,7 +7,7 @@
     "dev": "node watch.js",
     "watch:tailwind": "postcss assets/tailwind/tailwind.css -o assets/public/css/tailwind.css --watch",
     "build:tailwind": "postcss assets/tailwind/tailwind.css -o assets/public/css/tailwind.css",
-    "build:apache": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+    "build:apache": "sudo rm -rf /var/www/html/cap && sudo cp -r \"$(pwd)\" /var/www/html/cap"
   },
   "author": "",
   "license": "ISC",
