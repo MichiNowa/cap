@@ -91,7 +91,8 @@ function redirect($pathname, $status = 302)
     exit;
 }
 
-function assets(...$path)
+//function for getting desired pathname
+function pathname(...$path)
 {
     return implode("/", [URI_PREFIX, ...$path]);
 }

@@ -1,8 +1,8 @@
 
 <!-- links every page it is called to the scripts -->
-<script src="<?= assets('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= assets('js/jquery-3.6.0.min.js') ?>"></script>
-<script src="<?= assets('js/jquery.timeago.js') ?>"></script>
+<script src="<?= pathname('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= pathname('js/jquery-3.6.0.min.js') ?>"></script>
+<script src="<?= pathname('js/jquery.timeago.js') ?>"></script>
 
 <footer>
   <hr>

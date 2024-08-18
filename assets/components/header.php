@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta author="MichiNowa, ArvinJay, LhilKim">
     <!-- Logo Icon -->
-    <link rel="icon" href="<?= assets('images/logo.jpg') ?>">
-    <link rel="stylesheet" href="<?= assets('css/tailwind.css') ?>">
+    <link rel="icon" href="<?= pathname('images/logo.jpg') ?>">
+    <link rel="stylesheet" href="<?= pathname('css/tailwind.css') ?>">
     <!-- Tailwind CSS (Prefix: tw-) -->
-    <link rel="stylesheet" href="<?= assets('css/tailwind.css') ?>">
+    <link rel="stylesheet" href="<?= pathname('css/tailwind.css') ?>">
     <!-- Bootstrap CSS -->
-    <link href="<?= assets('vendor/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= pathname('vendor/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="<?= assets('vendor/bootstrap/icons/bootstrap-icons.css') ?>" rel="stylesheet">
+    <link href="<?= pathname('vendor/bootstrap/icons/bootstrap-icons.css') ?>" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="<?= assets('css/custom.css') ?>" rel="stylesheet">
+    <link href="<?= pathname('css/custom.css') ?>" rel="stylesheet">
 
     <!-- Page Title -->
     <title><?= $page_title ?></title>

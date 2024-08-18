@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col mt-4">
             <h1>Student Profile Information Sheet</h1>
-            <form method="post" action="<?= assets('api/post/updateprofile') ?>">
+            <form method="post" action="<?= pathname('api/post/updateprofile') ?>">
                 <div class="form-floating">
                     <input type="text" name="studentid" value="<?= showFormData('studentid') ?>"
                         class="form-control rounded-5" placeholder="username/email">
@@ -23,7 +23,7 @@
 
 
                 <div class="col-12 mt-3 text-center">
-                    <span><small>Forgot Password? <a href="<?= assets('signup') ?>" class="text-decoration-none">Click
+                    <span><small>Forgot Password? <a href="<?= pathname('signup') ?>" class="text-decoration-none">Click
                                 Here</a></small></span>
                 </div>
                 <div class="mt-3 d-flex justify-content-between align-items-center">

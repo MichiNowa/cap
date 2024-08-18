@@ -3,14 +3,14 @@
     <div class="row justify-content-center items-start">
         <div class="col-12 mt-3">
             <div class="tw-">
-                <img class="mb-4" src="<?= assets('images/logo.jpg') ?>" alt="Guidance Logo">
+                <img class="mb-4" src="<?= pathname('images/logo.jpg') ?>" alt="Guidance Logo">
             </div>
         </div>
     </div>
     <div class="row justify-content-center">
         <h3>SMCC GUIDANCE CENTER</h3>
         <div class="col-sm-10 col-lg-4 bg-white border p-4 box">
-            <form method="post" action="<?= assets('api/post/login') ?>">
+            <form method="post" action="<?= pathname('api/post/login') ?>">
                 <h1 class="h5 mb-3 text-muted">Login</h1>
 
                 <div class="form-floating">
@@ -33,7 +33,7 @@
 
 
                 <div class="col-12 mt-3 text-center">
-                    <span><small>Forgot Password? <a href="<?= assets('signup') ?>" class="text-decoration-none">Click
+                    <span><small>Forgot Password? <a href="<?= pathname('signup') ?>" class="text-decoration-none">Click
                                 Here</a></small></span>
                 </div>
                 <div class="mt-3 d-flex justify-content-between align-items-center">
@@ -42,7 +42,7 @@
             </form>
         </div>
         <div class="col-12 mt-3 text-center">
-            <span><small>Don't Have an Account? <a href="<?= assets('signup') ?>" class="text-decoration-none">Register
+            <span><small>Don't Have an Account? <a href="<?= pathname('signup') ?>" class="text-decoration-none">Register
                         Here</a></small></span>
         </div>
     </div>
