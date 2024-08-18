@@ -3,7 +3,11 @@
 namespace Smcc\Gcms\orm;
 use PDO;
 use PDOException;
+use Smcc\Gcms\orm\models\Admin;
+use Smcc\Gcms\orm\models\Schoolyear;
 use Smcc\Gcms\orm\models\Users;
+use Smcc\Gcms\orm\models\Student;
+use Smcc\Gcms\orm\models\Superadmin;
 
 class Database {
   private static $instance = null;
@@ -13,7 +17,11 @@ class Database {
   private string $user = DB_USER;
   private string $pass = DB_PASS;
   private array $modelClasses = [
+    Schoolyear::class,
     Users::class,
+    Superadmin::class,
+    Admin::class,
+    Student::class,
   ];
 
   private function __construct() {
@@ -42,8 +50,10 @@ class Database {
       $table = $instance::getTableName();
       foreach ($instance->getForeignConstraints() as $constraint) {
         [$column, $refTable, $refColumn, $onDelete, $onUpdate] = $constraint;
-        $query = "ALTER TABLE $table ADD CONSTRAINT fk_{$column}_{$refTable}_{$refColumn} FOREIGN KEY ($column) REFERENCES {$refTable}($refColumn) ON DELETE $onDelete ON UPDATE $onUpdate";
-        $this->db->exec($query);
+        try {
+          $query = "ALTER TABLE $table ADD CONSTRAINT fk_{$column}_{$refTable}_{$refColumn} FOREIGN KEY ($column) REFERENCES {$refTable}($refColumn) ON DELETE $onDelete ON UPDATE $onUpdate";
+          $this->db->exec($query);
+        } catch (PDOException $e) {}
       }
     }
   }

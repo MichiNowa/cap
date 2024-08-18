@@ -1,81 +1,101 @@
 <?php
 
 namespace Smcc\Gcms\orm\models;
+
 use Smcc\Gcms\orm\Database;
-interface BaseModel {
-  public static function all();
-  public static function findMany($col, $value);
-  public static function findOne($col, $value);
-  public static function getRowCount(array $condition);
+
+interface BaseModel
+{
+  public static function getTableName(): string;
+  public static function all(): array;
+  public static function findMany($col, $value): array;
+  public static function findOne($col, $value): ?static;
+  public static function getRowCount(array $condition): int;
   public function getCreateTable(): array;
   public function getForeignConstraints(): array;
-  public function save();
-  public function delete();
+  public function save(): bool;
+  public function delete(): bool;
+  public function toArray(): array;
+  public function toJSON(): string;
 }
 
-abstract class Model implements BaseModel {
-  public static function getTableName() {
+abstract class Model implements BaseModel
+{
+  public static function getTableName(): string
+  {
     $class = get_called_class();
     return strtolower(basename(str_replace('\\', '/', $class)));
   }
-  public static function all() {
+  public static function all(): array
+  {
     $db = Database::getInstance();
-    return $db->query("SELECT * FROM {self::getTableName()}");
+    $tablename = self::getTableName();
+    return $db->query("SELECT * FROM $tablename");
   }
 
-  public static function findMany($col, $value) {
+  public static function findMany($col, $value): array
+  {
     $db = Database::getInstance();
-    $result = $db->query("SELECT * FROM {self::getTableName()} WHERE $col =?", [$value]);
+    $tablename = self::getTableName();
+    $result = $db->query("SELECT * FROM $tablename WHERE $col =?", [$value]);
     switch (count($result)) {
-      case 0: return null;
+      case 0:
+        return null;
       default: {
-        $models = [];
-        foreach ($result as $row) {
+          $models = [];
+          foreach ($result as $row) {
+            $model = new static();
+            foreach ($result as $key => $value) {
+              $model->{$key} = $value;
+            }
+            $models[] = $model;
+          }
+          return $models;
+        }
+    }
+  }
+
+  public static function findOne($col, $value): ?static
+  {
+    $db = Database::getInstance();
+    $tablename = self::getTableName();
+    $result = $db->query("SELECT * FROM $tablename WHERE $col =?", [$value]);
+    switch (count($result)) {
+      case 0:
+        return null;
+      case 1: {
           $model = new static();
           foreach ($result as $key => $value) {
             $model->{$key} = $value;
           }
-          $models[] = $model;
+          return $model;
         }
-        return $models;
-      }
-    }
-  }
-
-  public static function findOne($col, $value) {
-    $db = Database::getInstance();
-    $result = $db->query("SELECT * FROM {self::getTableName()} WHERE $col =?", [$value]);
-    switch (count($result)) {
-      case 0: return null;
-      case 1: {
-        $model = new static();
-        foreach ($result as $key => $value) {
-          $model->{$key} = $value;
-        }
-        return $model;
-      }
       default: {
-        $model = new static();
-        foreach ($result[0] as $key => $value) {
-          $model->{$key} = $value;
+          $model = new static();
+          foreach ($result[0] as $key => $value) {
+            $model->{$key} = $value;
+          }
+          return $model;
         }
-        return $model;
-      }
     }
   }
 
-  public static function getRowCount($condition) {
+  public static function getRowCount($condition): int
+  {
     $db = Database::getInstance();
     $cols = array_keys($condition);
     $cond = array_map(fn($c) => "$c =?", $cols);
-    $result = $db->query("SELECT COUNT(*) as count FROM {self::getTableName()} WHERE ". implode(" AND ", $cond), array_map(fn($col) => $condition[$col], $cols));
+    $tablename = self::getTableName();
+    $result = $db->query("SELECT COUNT(*) as count FROM $tablename WHERE " . implode(" AND ", $cond), array_map(fn($col) => $condition[$col], $cols));
     return $result[0]["count"];
   }
 
-  public function save() {
+  public function save(): bool
+  {
     $db = Database::getInstance();
     $data = [];
-    $q = $db->query("DESC {self::getTableName()}");
+    $tablename = self::getTableName();
+    $q = $db->query("DESC $tablename");
     $columns = array_map(fn($qv) => $qv["Field"], $q);
     $primaryKey = array_filter($q, fn($qv) => $qv["Key"] === "PRI")[0]["Field"];
     foreach ($columns as $column) {
@@ -83,17 +103,33 @@ abstract class Model implements BaseModel {
     }
     // check if primary key exists
     if (isset($data[$primaryKey])) {
-      $db->query("SELECT $primaryKey FROM {self::getTableName()} WHERE $primaryKey =?", [$this->{$column}]);
+      $db->query("SELECT $primaryKey FROM $tablename WHERE $primaryKey =?", [$this->{$column}]);
       return $db->update(self::getTableName(), $data, $primaryKey);
     }
     return $db->insert(self::getTableName(), $data, $primaryKey);
   }
 
-  public function delete() {
+  public function delete(): bool
+  {
     $db = Database::getInstance();
-    $q = $db->query("DESC {self::getTableName()}");
+    $tablename = self::getTableName();
+    $q = $db->query("DESC $tablename");
     $primaryKey = array_filter($q, fn($qv) => $qv["Key"] === "PRI")[0]["Field"];
     return $db->delete(self::getTableName(), [$primaryKey => $this->{$primaryKey}]);
   }
 
+  public function toArray(): array
+  {
+    $arr = [];
+    foreach (static::getCreateTable() as $colDesc) {
+      $col = explode(" ", $colDesc)[0];
+      $arr[$col] = $this->{$col};
+    }
+    return $arr;
+  }
+
+  public function toJSON(): string
+  {
+    return json_encode($this->toArray());
+  }
 }

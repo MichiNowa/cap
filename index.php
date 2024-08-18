@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', 0);
+// ini_set('display_errors', 0);
 
 define('WORKSPACE_DIR', __DIR__);
 
@@ -35,17 +35,18 @@ try {
   match (PAGE_URI) {
     '/test' => throw new Exception('ERROR!! Page not found!!'),
     '/' => redirect('/login'),
-    '/home' => showPage('home', 'Home', [], 'auth', 'auth'),
-    '/profile' => showPage('profile', 'Profile', ['user' => AUTHUSER], 'auth', 'auth'),
-    '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => AUTHUSER], 'auth', 'auth'),
-    '/feedback' => showPage('feedback', 'Feedback Form', ['user' => AUTHUSER], 'auth', 'auth'),
-    '/notif' => showPage('notif', 'Notification', ['user' => AUTHUSER], 'auth', 'auth'),
-    '/signup' => showPage('signup', 'Sign Up', [], 'guest', 'guest'),
-    '/login' => showPage('login', 'Login', [], 'guest', 'guest'),
+    '/home' => showPage('home', 'Home', [], 'auth', ['auth']),
+    '/profile' => showPage('profile', 'Profile', ['user' => AUTHUSER], 'auth', ['auth']),
+    '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => AUTHUSER], 'auth', ['auth']),
+    '/feedback' => showPage('feedback', 'Feedback Form', ['user' => AUTHUSER], 'auth', ['auth']),
+    '/notif' => showPage('notif', 'Notification', ['user' => AUTHUSER], 'auth', ['auth']),
+    '/signup' => showPage('signup', 'Sign Up', ["scripts" => [pathname("js/react/signup.mjs")]], 'guest', ['guest']),
+    '/login' => showPage('login', 'Login', [], 'guest', ['guest']),
     '/api/post/login' => showAPI('actions', 'POST'),
     '/api/post/signup' => showAPI('actions', 'POST'),
     '/api/post/logout' => showAPI('actions', 'POST'),
     '/api/post/updateprofile' => showAPI('actions', 'POST'),
+    '/api/get/student/check' => showAPI('get'),
     default => showPublicFolder('assets'),
   };
 } catch (Throwable $e) {

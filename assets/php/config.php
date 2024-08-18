@@ -2,7 +2,6 @@
 session_start();
 
 define('PAGE_URI', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-define('PAGE_SEARCH_PARAMS', $_GET);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
   // check if uri is does not have file extension

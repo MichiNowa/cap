@@ -2,6 +2,7 @@
 require_once 'config.php';
 
 use Smcc\Gcms\orm\Database;
+use Smcc\Gcms\orm\models\Student;
 use Smcc\Gcms\orm\models\Users;
 
 // initialize the database connection
@@ -16,22 +17,28 @@ function import($path): string
   return $path;
 }
 
-//function for showing pages
-function showPage($view, $page_title, $data = [], $layout = 'guest', $middleware = null)
+function getSearchParam($key)
 {
-  // Check if a middleware is specified and if it is valid
-  if ($middleware) {
-    $middlewareFile = "/assets/middleware/{$middleware}.php";
-    require_once import($middlewareFile);
-  }
+  return isset($_GET[$key]) ? $_GET[$key] : null;
+}
 
+//function for showing pages
+function showPage($view, $page_title, $data = [], $layout = 'guest', $middlewares = [])
+{
+  foreach ($middlewares as $middleware) {
+    // Check if middleware is valid
+    $middlewareFile = import("/assets/middleware/{$middleware}.php");
+    if (file_exists($middlewareFile) && is_file($middlewareFile)) {
+      require_once $middlewareFile;
+    }
+  }
+  if (!isset($data["scripts"])) {
+    $data["scripts"] = [];
+  }
   // Extract the data array into variables
   extract($data);
-  // Start output buffering
   ob_start();
-  // Include the view file
   require_once import("assets/pages/{$view}.php");
-  // Get the captured output and clear the buffer
   $content = ob_get_clean();
   $page_title = APP_TITLE . " - " . $page_title;
   // Include the layout file
@@ -124,6 +131,14 @@ function showError($field)
   }
 }
 
+//function show response json
+function responseJSON($data, $statusCode = 200)
+{
+  header("Content-Type: application/json; charset=UTF-8");
+  http_response_code($statusCode);
+  echo json_encode($data);
+  exit;
+}
 
 //function for show prevformdata
 function showFormData($field)
@@ -134,6 +149,13 @@ function showFormData($field)
   }
 }
 
+//function for showing loading component
+function showLoading()
+{
+  ob_start();
+  require_once import("assets/components/loading.php");
+  return ob_get_clean();
+}
 
 //for checking authentication
 function isAuthenticated()
@@ -144,19 +166,19 @@ function isAuthenticated()
 //for checking duplicate email
 function isEmailRegistered($email)
 {
-  return Users::getRowCount(["email" => $email]);
+  return Users::getRowCount(["email" => $email]) > 0;
 }
 
 //for checking duplicate studentid
-function isUsernameRegistered($studentid)
+function isUsernameRegistered($username)
 {
-  return Users::getRowCount(["id" => $studentid]);
+  return Users::getRowCount(["username" => $username]) > 0;
 }
 
 //for checking duplicate studentid by other
 function isUsernameRegisteredByOther($username)
 {
-  return Users::getRowCount(["username" => $username]);
+  return Users::getRowCount(["username" => $username]) > 0;
 }
 
 //for validating the signup form

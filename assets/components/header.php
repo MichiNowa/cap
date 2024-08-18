@@ -8,7 +8,6 @@
     <meta author="MichiNowa, ArvinJay, LhilKim">
     <!-- Logo Icon -->
     <link rel="icon" href="<?= pathname('images/logo.jpg') ?>">
-    <link rel="stylesheet" href="<?= pathname('css/tailwind.css') ?>">
     <!-- Tailwind CSS (Prefix: tw-) -->
     <link rel="stylesheet" href="<?= pathname('css/tailwind.css') ?>">
     <!-- Bootstrap CSS -->
