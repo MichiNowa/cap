@@ -6,6 +6,13 @@ define('WORKSPACE_DIR', __DIR__);
 
 // this page serves as the initial page
 require WORKSPACE_DIR . '/vendor/autoload.php';
+
+// use dotenv
+use Dotenv\Dotenv;
+// Initialize and load the .env file
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 require_once WORKSPACE_DIR . '/assets/php/functions.php';
 
 try {
