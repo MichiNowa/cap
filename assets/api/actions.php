@@ -1,5 +1,4 @@
 <?php
-// require_once 'assets/php/functions.php';
 
 //for managing signup
 if (PAGE_URI === pathname('/api/post/signup')) {
