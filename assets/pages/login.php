@@ -17,11 +17,8 @@
                     <label for="floatingInput">Student or Teacher ID</label>
                 </div>
                 <?= showError('studentid') ?>
-                <div class="text-end mt-2">
-                    <input type="checkbox" name="pswd_show" id="pswd_show" onclick="pswd_toggle()"><small> Show
-                        Password</small>
-                </div>
-                <div class="form-floating mt-1">
+                <div class="form-floating mt-1 position-relative">
+                    <button type="button" id="pswd_show" class="position-absolute tw-right-0 tw-top-0 tw-h-full tw-aspect-square p-2 z-100" onclick="pswd_toggle()" data-show="false"><i class="bi bi-eye-slash-fill"></i></button>
                     <input type="password" name="password" class="form-control rounded-3" id="floatingPassword"
                         placeholder="Password">
                     <label for="floatingPassword">Password</label>
@@ -49,12 +46,19 @@
 <!-- see password -->
 <script>
     function pswd_toggle() {
-        var x = document.getElementById("floatingPassword");
-        var box = document.getElementById("pswd_show");
-        if (box.checked == 1) {
+        const x = document.getElementById("floatingPassword");
+        const box = document.getElementById("pswd_show");
+
+        if (box.dataset.show == "false") {
             x.type = "text";
+            box.firstElementChild.classList.remove("bi-eye-slash-fill");
+            box.firstElementChild.classList.add("bi-eye-fill");
+            box.setAttribute("data-show", "true");
         } else {
             x.type = "password";
+            box.firstElementChild.classList.remove("bi-eye-fill");
+            box.firstElementChild.classList.add("bi-eye-slash-fill");
+            box.setAttribute("data-show", "false");
         }
     }
 </script>

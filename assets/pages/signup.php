@@ -85,8 +85,8 @@
 <script>
     // see passweord
     function pswd_toggle() {
-        var x = document.getElementById("floatingPassword");
-        var box = document.getElementById("pswd_show");
+        const x = document.getElementById("floatingPassword");
+        const box = document.getElementById("pswd_show");
 
         if (box.dataset.show == "false") {
             x.type = "text";
