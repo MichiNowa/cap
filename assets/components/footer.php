@@ -12,6 +12,9 @@
 <script src="<?= pathname('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= pathname('vendor/jquery/jquery-3.7.1.min.js') ?>"></script>
 <script src="<?= pathname('vendor/jquery/jquery.timeago.js') ?>"></script>
+<script>
+  var URI_PREFIX = "<?= URI_PREFIX ?>";
+</script>
 
 <?php if (isset($scripts)) {
   foreach ($scripts as $script) {

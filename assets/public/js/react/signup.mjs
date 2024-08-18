@@ -30,7 +30,7 @@ function QrScanner() {
   const onResult = React.useCallback((fullname, studentid) => {
     // check first if exists
     // from path /api/get/student/check
-    const url = new URL("/api/get/student/check", window.location.origin);
+    const url = new URL(URI_PREFIX + "/api/get/student/check", window.location.origin);
     url.searchParams.append('student_id', studentid);
     fetch(url)
       .then(response => response.json())
