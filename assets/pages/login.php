@@ -13,7 +13,7 @@
 
                 <div class="form-floating">
                     <input type="text" name="studentid" value="<?= showFormData('studentid') ?>"
-                        class="form-control rounded-5" placeholder="username/email">
+                        class="form-control rounded-3" placeholder="username/email">
                     <label for="floatingInput">Student or Teacher ID</label>
                 </div>
                 <?= showError('studentid') ?>
@@ -22,7 +22,7 @@
                         Password</small>
                 </div>
                 <div class="form-floating mt-1">
-                    <input type="password" name="password" class="form-control rounded-5" id="floatingPassword"
+                    <input type="password" name="password" class="form-control rounded-3" id="floatingPassword"
                         placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
