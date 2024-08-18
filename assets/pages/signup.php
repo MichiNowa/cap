@@ -77,8 +77,7 @@
             </form>
         </div>
         <div class="col-12 mt-3 text-center">
-            <span><small>Already Have an Account? <a href="<?= pathname('login') ?> class="text-decoration-none">Login Here
-                        ?</a></small></span>
+            <span><small>Already Have an Account? <a href="<?= pathname('login') ?>" class="text-decoration-none">Login Here</a></small></span>
         </div>
     </div>
 </div>
