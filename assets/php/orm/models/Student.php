@@ -7,7 +7,7 @@ class Student extends Model {
   public ?int $id;
   public int $user_id;
   public ?string $departmentstrand;
-  public ?string $yeargradelevel;
+  public ?int $yeargradelevel;
   public ?int $deanadviser;
   public ?int $schoolyear_id;
   public ?string $created_at;

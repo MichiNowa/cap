@@ -20,14 +20,14 @@
           <?php foreach (($item["children"] ?? []) as $navlinks) { ?>
             <a href="<?= $navlinks["href"] ?>" class="nav__link <?= PAGE_URI === $navlinks["href"] ? "active" : "" ?>" id="navhome">
               <i class="nav__icon <?= $navlinks['icon'] ?? '' ?>"></i>
-              <span class="nav__name">Home</span>
+              <span class="nav__name"><?=$navlinks["label"]?></span>
             </a>
           <?php } ?>
 
           <?php if (!isset($item["children"]) && isset($item["label"]) && isset($item["href"])) { ?>
             <a href="<?= $navlinks["href"] ?>" class="nav__link <?= PAGE_URI === $navlinks["href"] ? "active" : "" ?>" id="navhome">
               <i class="nav__icon <?= $navlinks['icon'] ?? '' ?>"></i>
-              <span class="nav__name">Home</span>
+              <span class="nav__name"><?=$navlinks["label"]?></span>
             </a>
           <?php } ?>
 
