@@ -4,9 +4,8 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
   $_SESSION['prev_url'] = $_SERVER['REQUEST_URI'];
 }
-
 define('APP_TITLE', $_ENV['APP_TITLE'] ?? "SMCC");
-define('URI_PREFIX', $_ENV['URI_PREFIX'] ?? "/" . basename(dirname("assets/")));
+define('URI_PREFIX', $_ENV['URI_PREFIX'] ?? "/" . basename(dirname(dirname(__DIR__))));
 
 // connect to dataabse
 define('DB_NAME', $_ENV['DB_NAME'] ?? 'gcms');
