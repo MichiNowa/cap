@@ -1,10 +1,8 @@
 <!-- login form -->
 <div class="container fluid text-center justify-content-center">
-    <div class="row justify-content-center items-start">
-        <div class="col-12 mt-3">
-            <div class="tw-">
-                <img class="mb-4" src="<?= pathname('images/logo.jpg') ?>" alt="Guidance Logo">
-            </div>
+    <div class="tw-flex tw-justify-center tw-items-start tw-mt-8">
+        <div class="tw-object-contain tw-p-4 tw-max-w-64 aspect-square">
+            <img class="mb-4" src="<?= pathname('images/logo.jpg') ?>" alt="Guidance Logo">
         </div>
     </div>
     <div class="row justify-content-center">

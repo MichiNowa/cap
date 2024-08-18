@@ -504,8 +504,29 @@ video {
 .tw-mt-2 {
   margin-top: 0.5rem;
 }
+.tw-mt-4 {
+  margin-top: 1rem;
+}
+.tw-mt-8 {
+  margin-top: 2rem;
+}
+.tw-flex {
+  display: flex;
+}
 .tw-w-full {
   width: 100%;
+}
+.tw-max-w-32 {
+  max-width: 8rem;
+}
+.tw-max-w-64 {
+  max-width: 16rem;
+}
+.tw-items-start {
+  align-items: flex-start;
+}
+.tw-justify-center {
+  justify-content: center;
 }
 .tw-text-wrap {
   text-wrap: wrap;
@@ -516,6 +537,10 @@ video {
 .tw-bg-red-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 242 242 / var(--tw-bg-opacity));
+}
+.tw-object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .tw-p-4 {
   padding: 1rem;
