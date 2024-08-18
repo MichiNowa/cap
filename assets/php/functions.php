@@ -7,15 +7,22 @@ use Smcc\Gcms\orm\models\Users;
 // initialize the database connection
 Database::getInstance();
 
+// function to return the absolute path of the workspace including $path argument (to avoid import errors)
+function import($path): string
+{
+  $path = explode("/", $path);
+  $path = array_filter($path, fn($p) => !empty($p));
+  $path = implode(DIRECTORY_SEPARATOR, [WORKSPACE_DIR, ...$path]);
+  return $path;
+}
+
 //function for showing pages
 function showPage($view, $page_title, $data = [], $layout = 'guest', $middleware = null)
 {
   // Check if a middleware is specified and if it is valid
   if ($middleware) {
-    $middlewareFile = "assets/middleware/{$middleware}.php";
-    if (file_exists($middlewareFile) && is_file($middlewareFile)) {
-      require_once $middlewareFile;
-    }
+    $middlewareFile = "/assets/middleware/{$middleware}.php";
+    require_once import($middlewareFile);
   }
 
   // Extract the data array into variables
@@ -23,19 +30,19 @@ function showPage($view, $page_title, $data = [], $layout = 'guest', $middleware
   // Start output buffering
   ob_start();
   // Include the view file
-  require_once "assets/pages/{$view}.php";
+  require_once import("assets/pages/{$view}.php");
   // Get the captured output and clear the buffer
   $content = ob_get_clean();
   $page_title = APP_TITLE . " - " . $page_title;
   // Include the layout file
-  require_once "assets/layouts/{$layout}.php";
+  require_once import("assets/layouts/{$layout}.php");
 }
 
 function showAPI($endpoint, $method = 'GET', $data = [])
 {
   if ($_SERVER['REQUEST_METHOD'] == $method) {
     extract($data);
-    require_once "assets/api/{$endpoint}.php";
+    require_once import("assets/api/{$endpoint}.php");
   }
 }
 

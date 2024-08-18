@@ -18,10 +18,10 @@
                 </div>
                 <?= showError('studentid') ?>
                 <div class="form-floating mt-1 position-relative">
-                    <button type="button" id="pswd_show" class="position-absolute tw-right-0 tw-top-0 tw-h-full tw-aspect-square p-2 z-100" onclick="pswd_toggle()" data-show="false"><i class="bi bi-eye-slash-fill"></i></button>
                     <input type="password" name="password" class="form-control rounded-3" id="floatingPassword"
                         placeholder="Password">
                     <label for="floatingPassword">Password</label>
+                    <button type="button" id="pswd_show" class="position-absolute tw-right-0 tw-top-0 tw-h-full tw-aspect-square p-2" onclick="pswd_toggle()" data-show="false"><i class="bi bi-eye-slash-fill"></i></button>
                 </div>
                 <?= showError('password') ?>
                 <?= showError('checkuser') ?>

@@ -2,9 +2,11 @@
 
 ini_set('display_errors', 0);
 
+define('WORKSPACE_DIR', __DIR__);
+
 // this page serves as the initial page
-require 'vendor/autoload.php';
-require_once 'assets/php/functions.php';
+require WORKSPACE_DIR . '/vendor/autoload.php';
+require_once WORKSPACE_DIR . '/assets/php/functions.php';
 
 try {
 

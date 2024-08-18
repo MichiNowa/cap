@@ -501,23 +501,14 @@ video {
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
 }
-.tw-right-1 {
-  right: 0.25rem;
+.tw-right-0 {
+  right: 0px;
 }
 .tw-top-0 {
   top: 0px;
 }
-.tw-right-0 {
-  right: 0px;
-}
-.tw-z-50 {
-  z-index: 50;
-}
 .tw-mt-2 {
   margin-top: 0.5rem;
-}
-.tw-mt-4 {
-  margin-top: 1rem;
 }
 .tw-mt-8 {
   margin-top: 2rem;
@@ -534,9 +525,6 @@ video {
 .tw-w-full {
   width: 100%;
 }
-.tw-max-w-32 {
-  max-width: 8rem;
-}
 .tw-max-w-64 {
   max-width: 16rem;
 }
@@ -545,15 +533,6 @@ video {
 }
 .tw-justify-center {
   justify-content: center;
-}
-.tw-gap-x-2 {
-  -moz-column-gap: 0.5rem;
-       column-gap: 0.5rem;
-}
-.tw-space-x-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 .tw-text-wrap {
   text-wrap: wrap;
