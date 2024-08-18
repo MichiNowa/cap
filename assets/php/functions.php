@@ -2,7 +2,6 @@
 require_once 'config.php';
 
 use Smcc\Gcms\orm\Database;
-use Smcc\Gcms\orm\models\Student;
 use Smcc\Gcms\orm\models\Users;
 
 // initialize the database connection
@@ -250,18 +249,18 @@ function validateLoginForm($form_data)
   }
 
   if (!$form_data['studentid']) {
-    $response['msg'] = "Please enter your studentid";
+    $response['msg'] = "Please enter your Student ID";
     $response['status'] = false;
     $response['field'] = 'studentid';
     $blank = true;
   }
-
-  if (!$blank && !checkUser($form_data)['status']) {
+  $checked = checkUser($form_data);
+  if (!$blank && !$checked['status']) {
     $response['msg'] = "Login Failed. Please try again :(";
     $response['status'] = false;
     $response['field'] = 'checkuser';
   } else {
-    $response['user'] = checkUser($form_data)['user'];
+    $response['user'] = $checked;
   }
 
   return $response;
@@ -271,16 +270,12 @@ function validateLoginForm($form_data)
 //for checking the user
 function checkUser($login_data)
 {
-  global $db;
-  $studentid = $login_data['studentid'];
-  $password = password_hash($login_data['password'], PASSWORD_DEFAULT);
-  $query = "SELECT * FROM users WHERE studentid='$studentid' && pass='$password'";
-  $run = mysqli_query($db, $query);
-  $data['user'] = mysqli_fetch_assoc($run) ?? [];
-  if (count($data['user']) > 0) {
+  $user = Users::findOne("username", $login_data['studentid']);
+  $data = ['status' => false];
+  if ($user && $user->checkPassword($login_data['password'])) {
+    $data = $user->toArray();
     $data['status'] = true;
-  } else {
-    $data['status'] = false;
+    unset($data['password']);
   }
 
   return $data;
@@ -290,10 +285,7 @@ function checkUser($login_data)
 //for getting userdata by id
 function getUser($user_id)
 {
-  global $db;
-  $query = "SELECT * FROM users WHERE id=$user_id";
-  $run = mysqli_query($db, $query);
-  return mysqli_fetch_assoc($run);
+  return Users::findOne('id', $user_id);
 }
 
 //for getting sidebar navbar links
@@ -336,7 +328,7 @@ function createUser($data)
   $user->gender = $data['gender'];
   $user->profile_pic = pathname("images/default_profile.jpg");
   $user->setPassword($data['password']);
-  return $user->save();
+  return boolval($user->save());
 }
 
 

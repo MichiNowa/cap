@@ -15,24 +15,9 @@ class Users extends Model
   public string $gender;
   public string $email;
   public string $profile_pic;
+  public string $role;
   public ?string $created_at;
   public ?string $updated_at;
-
-  public function __construct()
-  {
-    foreach (self::getCreateTable() as $column) {
-      $col = explode(" ", $column)[0];
-      try {
-        $this->{$col} = null;
-      } catch (\Throwable $e) {
-        try {
-          $this->{$col} = '';
-        } catch (\Throwable $e) {
-          $this->{$col} = 0;
-        }
-      }
-    }
-  }
 
   public function setPassword(string $password)
   {
@@ -82,9 +67,7 @@ class Users extends Model
   }
   public function getRole(): string
   {
-    if (Superadmin::findOne("id", $this->getId())) return 'superadmin';                                                                                          
-    if (Admin::findOne("user_id", $this->getId())) return 'admin';
-    if (Student::findOne("user_id", $this->getId())) return 'student';
+    return $this->role;
   }
   public function getCreatedAt(): DateTime
   {
@@ -104,9 +87,10 @@ class Users extends Model
       "first_name VARCHAR(255) NOT NULL",
       "middle_initial VARCHAR(255)",
       "last_name VARCHAR(255) NOT NULL",
-      "gender ENUM('male', 'female', 'other') NOT NULL",
+      "gender ENUM('male', 'female', 'other') DEFAULT 'male'",
       "email VARCHAR(255) NOT NULL UNIQUE",
       "profile_pic VARCHAR(255) DEFAULT ''",
+      "role ENUM('admin', 'teacher', 'student') DEFAULT 'student'",
       "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
       "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
     ];

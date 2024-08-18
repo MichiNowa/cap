@@ -5,8 +5,8 @@ use DateTime;
 
 class Superadmin extends Model {
   public int $id;
-  public string $created_at;
-  public string $updated_at;
+  public ?string $created_at;
+  public ?string $updated_at;
 
   public function getId(): string
   {

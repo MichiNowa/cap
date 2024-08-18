@@ -5,8 +5,8 @@ use DateTime;
 
 class Schoolyear extends Model {
   public int $year;
-  public string $created_at;
-  public string $updated_at;
+  public ?string $created_at;
+  public ?string $updated_at;
 
   public function getYear(): int
   {

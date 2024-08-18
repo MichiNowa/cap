@@ -13,14 +13,48 @@ interface BaseModel
   public static function getRowCount(array $condition): int;
   public function getCreateTable(): array;
   public function getForeignConstraints(): array;
-  public function save(): bool;
+  public function save(): bool|int|string;
   public function delete(): bool;
   public function toArray(): array;
   public function toJSON(): string;
 }
 
-abstract class Model implements BaseModel
+class Model implements BaseModel
 {
+
+  public function __construct()
+  {
+    foreach ($this->getCreateTable() as $column) {
+      $col = explode(" ", $column)[0];
+      $datatype = explode(" ", $column)[1];
+      if (str_starts_with(strtolower($datatype), "enum")) {
+        $default = explode("default ", strtolower($column));
+        $default = array_pop($default);
+        $default = explode(" ", $default);
+        $default = array_shift($default);
+        $default = trim($default, "'");
+        $this->{$col} = $default;
+        continue;
+      }
+      try {
+        $this->{$col} = null;
+      } catch (\Throwable $e) {
+        try {
+          $this->{$col} = '';
+        } catch (\Throwable $e) {
+          $this->{$col} = 0;
+        }
+      }
+    }
+  }
+
+  public function getCreateTable(): array {
+    return [];
+  }
+  public function getForeignConstraints(): array {
+    return [];
+  }
+
   public static function getTableName(): string
   {
     $class = get_called_class();
@@ -63,13 +97,6 @@ abstract class Model implements BaseModel
     switch (count($result)) {
       case 0:
         return null;
-      case 1: {
-          $model = new static();
-          foreach ($result as $key => $value) {
-            $model->{$key} = $value;
-          }
-          return $model;
-        }
       default: {
           $model = new static();
           foreach ($result[0] as $key => $value) {
@@ -90,7 +117,7 @@ abstract class Model implements BaseModel
     return $result[0]["count"];
   }
 
-  public function save(): bool
+  public function save(): bool|int|string
   {
     $db = Database::getInstance();
     $data = [];

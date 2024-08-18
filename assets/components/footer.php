@@ -10,8 +10,8 @@
 
 <!-- links every page it is called to the scripts -->
 <script src="<?= pathname('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= pathname('js/jquery-3.6.0.min.js') ?>"></script>
-<script src="<?= pathname('js/jquery.timeago.js') ?>"></script>
+<script src="<?= pathname('vendor/jquery/jquery-3.7.1.min.js') ?>"></script>
+<script src="<?= pathname('vendor/jquery/jquery.timeago.js') ?>"></script>
 
 <?php if (isset($scripts)) {
   foreach ($scripts as $script) {

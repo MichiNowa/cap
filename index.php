@@ -29,13 +29,13 @@ try {
     define('AUTHUSER', null);
   }
   // define sidebar links based on user role
-  define('SIDEBAR_LINKS', getSidebarLinks(!is_null(AUTHUSER) ? AUTHUSER['role'] : 'student'));
+  define('SIDEBAR_LINKS', getSidebarLinks(!is_null(AUTHUSER) ? AUTHUSER->role : null));
 
   //display pages from function
   match (PAGE_URI) {
     '/test' => throw new Exception('ERROR!! Page not found!!'),
     '/' => redirect('/login'),
-    '/home' => showPage('home', 'Home', [], 'auth', ['auth']),
+    '/home' => showPage('home', 'Home', ['user' => AUTHUSER], 'auth', ['auth']),
     '/profile' => showPage('profile', 'Profile', ['user' => AUTHUSER], 'auth', ['auth']),
     '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => AUTHUSER], 'auth', ['auth']),
     '/feedback' => showPage('feedback', 'Feedback Form', ['user' => AUTHUSER], 'auth', ['auth']),

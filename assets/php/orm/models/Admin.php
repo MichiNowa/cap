@@ -4,10 +4,10 @@ namespace Smcc\Gcms\orm\models;
 use DateTime;
 
 class Admin extends Model {
-  public int $id;
+  public ?int $id;
   public int $user_id;
-  public string $created_at;
-  public string $updated_at;
+  public ?string $created_at;
+  public ?string $updated_at;
 
   public function getId(): string
   {

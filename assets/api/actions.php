@@ -27,7 +27,7 @@ if (PAGE_URI === pathname('/api/post/login')) {
   if ($response['status']) {
     $_SESSION['Auth'] = true;
     $_SESSION['userdata'] = $response['user'];
-    redirect("/");
+    redirect("/home");
   } else {
     $_SESSION['error'] = $response;
     $_SESSION['formdata'] = $_POST;

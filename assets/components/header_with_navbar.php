@@ -18,7 +18,7 @@
     <link href="<?= pathname('vendor/sweetalert2/sweetalert2.min.css')?>" rel="stylesheet">
     
     <!--========== CDN ==========-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="<?= pathname('vendor/boxicons/boxicons.min.css') ?>">
 
     <!--========== NAVBAR CSS ==========-->
     <link rel="stylesheet" href="<?= pathname('css/nav.css') ?>">
@@ -45,8 +45,8 @@
 <!--========== HEADER ==========-->
 <header class="header">
     <div class="header__container">
-        <?php if (AUTHUSER) { ?>
-            <img src="<?= pathname('images/profile', AUTHUSER['profpic'] ?? "") ?>.jpg') ?>" alt="" class="header__img">
+        <?php if ($user) { ?>
+            <img src="<?= pathname('images/profile', $user->profile_pic ?? "") ?>.jpg') ?>" alt="" class="header__img">
         <?php } else { ?>
             <a href="<?= pathname('login') ?>" class="header__link">Login</a>
         <?php } ?>
