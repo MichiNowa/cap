@@ -8,7 +8,15 @@ use Smcc\Gcms\orm\models\Users;
 Database::getInstance();
 
 //function for showing pages
-function showPage($view, $page_title, $data = [], $layout = 'guest') {
+function showPage($view, $page_title, $data = [], $layout = 'guest', $middleware = null) {
+    // Check if a middleware is specified and if it is valid
+    if ($middleware) {
+        $middlewareFile = "assets/middleware/{$middleware}.php";
+        if (file_exists($middlewareFile) && is_file($middlewareFile)) {
+            require_once $middlewareFile;
+        }
+    }
+
     // Extract the data array into variables
     extract($data);
     // Start output buffering
@@ -60,15 +68,17 @@ function showPublicFolder($basepath) {
 
 
 // function for back to previous page
-function back($status = 302) {
+function back($status = 302)
+{
+    $prefix = URI_PREFIX;
     if (isset($_SESSION['prev_url'])) {
         $previousUrl = $_SESSION['prev_url'];
-        unset($_SESSION['prev_url']);
-        header("Location: {URI_PREFIX}$previousUrl", true, $status);
+        unset($_SESSION['prev_url']);;
+        header("Location: {$prefix}$previousUrl", true, $status);
         exit;
     } else {
         // Fallback URL if no previous URL is found
-        header("Location: {URI_PREFIX}/", true, $status);
+        header("Location: {$prefix}/", true, $status);
         exit;
     }
 }
@@ -76,7 +86,8 @@ function back($status = 302) {
 // function for redirect to specific page
 function redirect($pathname, $status = 302)
 {
-    header("Location: {URI_PREFIX}$pathname", true, $status);
+    $prefix = URI_PREFIX;
+    header("Location: {$prefix}$pathname", true, $status);
     exit;
 }
 
@@ -106,6 +117,12 @@ function showFormData($field)
 
 }
 
+
+//for checking authentication
+function isAuthenticated()
+{
+    return isset($_SESSION['Auth']) && !is_null(AUTHUSER);
+}
 
 //for checking duplicate email
 function isEmailRegistered($email)

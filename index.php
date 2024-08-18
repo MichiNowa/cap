@@ -16,7 +16,8 @@ $pagesearchparams = $_GET;
 try {
     match ($pageuri) {
         '/test' => throw new Exception('ERROR!! Page not found!!'),
-        '/' => showPage('home', 'Home', [], 'auth'),
+        '/' => redirect('/login'),
+        '/home' => showPage('home', 'Home', [], 'auth'),
         '/profile' => showPage('profile', 'Profile', ['user' => AUTHUSER], 'auth'),
         '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => AUTHUSER], 'auth'),
         '/feedback' => showPage('feedback', 'Feedback Form', ['user' => AUTHUSER], 'auth'),
