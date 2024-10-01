@@ -1,5 +1,5 @@
 import { IDRegExFormat } from "./global.mjs";
-import { React, ReactDOM, ReactQrScanner, Swal } from "./imports.mjs";
+import { React, ReactDOM, ReactQrScanner } from "./imports.mjs";
 
 const signupForm = $('#signup-form');
 const studentIDInput = $('input#studentid');
@@ -26,7 +26,6 @@ function QrScanner() {
   const format = 'qr_code';
 
   const reset = React.useCallback(() => setScannedData([]), []);
-
   const onResult = React.useCallback((fullname, studentid) => {
     // check first if exists
     // from path /api/get/student/check

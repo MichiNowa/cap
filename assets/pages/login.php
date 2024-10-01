@@ -1,7 +1,7 @@
 <!-- login form -->
 <div class="container fluid text-center justify-content-center">
     <div class="tw-flex tw-justify-center tw-items-start tw-mt-8">
-        <div class="tw-object-contain tw-p-4 tw-max-w-64 aspect-square">
+        <div class="tw-object-contain tw-p-4 tw-max-w-32 aspect-square">
             <img class="mb-4" src="<?= pathname('images/logo.jpg') ?>" alt="Guidance Logo">
         </div>
     </div>
@@ -10,22 +10,27 @@
         <div class="col-sm-10 col-lg-4 bg-white border p-4 box">
             <form method="post" action="<?= pathname('api/post/login') ?>">
                 <h1 class="h5 mb-3 text-muted">Login</h1>
-
-                <div class="form-floating">
-                    <input type="text" name="studentid" value="<?= showFormData('studentid') ?>"
-                        class="form-control rounded-3" placeholder="username/email">
-                    <label for="floatingInput">Student or Teacher ID</label>
+                <div class="mb-3 tw-text-left">
+                    <label class="form-label" for="studentid">School ID</label>
+                    <div class="form-floating">
+                        <input type="text" name="studentid" id="studentid" value="<?= showFormData('studentid') ?>"
+                            class="form-control form-control-lg" placeholder="username/email">
+                        <label for="studentid">Student or Teacher ID</label>
+                    </div>
+                    <?= showError('studentid') ?>
                 </div>
-                <?= showError('studentid') ?>
-                <div class="form-floating mt-1 position-relative">
-                    <input type="password" name="password" class="form-control rounded-3" id="floatingPassword"
-                        placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                    <button type="button" id="pswd_show" class="position-absolute tw-right-0 tw-top-0 tw-h-full tw-aspect-square p-2" onclick="pswd_toggle()" data-show="false"><i class="bi bi-eye-slash-fill"></i></button>
-                </div>
-                <?= showError('password') ?>
-                <?= showError('checkuser') ?>
 
+                <div class="mb-3 tw-text-left">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="form-floating position-relative password-toggle">
+                        <input type="password" name="password" id="password" class="form-control form-control-lg"
+                            placeholder="Password">
+                        <label for="password">Password</label>
+                        <button type="button" class="position-absolute tw-right-0 tw-top-0 tw-h-full tw-aspect-square p-2 password-toggle-btn"><i class="bi bi-eye-slash-fill"></i></button>
+                    </div>
+                    <?= showError('password') ?>
+                    <?= showError('checkuser') ?>
+                </div>
 
                 <div class="col-12 mt-3 text-center">
                     <span><small>Forgot Password? <a href="<?= pathname('signup') ?>" class="text-decoration-none">Click
@@ -42,23 +47,3 @@
         </div>
     </div>
 </div>
-
-<!-- see password -->
-<script>
-    function pswd_toggle() {
-        const x = document.getElementById("floatingPassword");
-        const box = document.getElementById("pswd_show");
-
-        if (box.dataset.show == "false") {
-            x.type = "text";
-            box.firstElementChild.classList.remove("bi-eye-slash-fill");
-            box.firstElementChild.classList.add("bi-eye-fill");
-            box.setAttribute("data-show", "true");
-        } else {
-            x.type = "password";
-            box.firstElementChild.classList.remove("bi-eye-fill");
-            box.firstElementChild.classList.add("bi-eye-slash-fill");
-            box.setAttribute("data-show", "false");
-        }
-    }
-</script>

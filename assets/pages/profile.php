@@ -50,7 +50,6 @@
     }
 </style>
 
-
 <!-- CONTENT -->
 <div class="container justify-content-center box">
     <div class="row text-center">
@@ -58,7 +57,7 @@
             <h4 class="mt-3 mb-3" style="text-decoration:underline;">STUDENT PERSONAL INFORMATION SHEET</h4>
         </div>
     </div>
-    <form action="">
+    <form action="<?= pathname("/api/post/studentprofile") ?>" id="profile-form">
         <div class="row">
             <div class="col">
                 <table>
@@ -69,7 +68,8 @@
                         <td>
                             <label for="formFile" class="form-label"><small>2x2 Picture Wearing SMCC
                                     Uniform (JPG/PNG)</small></label>
-                            <input class="form-control" type="file" id="formFile">
+                            <div id="form-photo-display" class="tw-w-full mb-2"></div>
+                            <input class="form-control" type="file" id="formFile" name="profile_pic" multiple="false" accept=".png, .jpeg, .jpg">
                         </td>
                     </tr>
                 </table>
@@ -78,7 +78,8 @@
                 <!-- <h2>name</h2> -->
                 <table>
                     <th>
-                        <u>For Basic Education</u>
+                        <label for="formEducationBasic"><u>For Basic Education</u></label>
+                        <div class="tw-inline"><input type="radio" name="education" id="formEducationBasic" value="basic"></div>
                     </th>
                     <th>
                         <br><br>
@@ -91,14 +92,14 @@
                     <tr>
                         <td>
                             <div class="select-wrapper">
-                                <select name="" id="" class="form-control">
+                                <select name="grade_level" id="formGradeLevel" class="form-control">
                                     <option value="" selected disabled>Select Level</option>
-                                    <option value="">Grade 7</option>
-                                    <option value="">Grade 8</option>
-                                    <option value="">Grade 9</option>
-                                    <option value="">Grade 10</option>
-                                    <option value="">Grade 11</option>
-                                    <option value="">Grade 12</option>
+                                    <option value="7">Grade 7</option>
+                                    <option value="8">Grade 8</option>
+                                    <option value="9">Grade 9</option>
+                                    <option value="10">Grade 10</option>
+                                    <option value="11">Grade 11</option>
+                                    <option value="12">Grade 12</option>
                                 </select>
                             </div>
                         </td>
@@ -111,11 +112,9 @@
                     <tr>
                         <td>
                             <div class="select-wrapper">
-                                <select name="" id="" class="form-control">
-                                    <option value="" selected disabled>Select School Year</option>
-                                    <option value="">2024-2025</option>
-                                    <option value="">2025-2026</option>
-                                    <option value="">2026-2027</option>
+                                <select name="school_year" id="formSchoolYear" class="form-control">
+                                    <option value="" selected disabled>School Year</option>
+                                    <option value="<?= getCurrentRegisteredSchoolYear() ?>"><?= getCurrentRegisteredSchoolYear() ?> - <?= getCurrentRegisteredSchoolYear() + 1 ?></option>
                                 </select>
                             </div>
                         </td>
@@ -125,61 +124,54 @@
             <div class="col">
                 <table>
                     <th>
-                        <u>For College Department</u>
+                        <label for="formEducationCollege"><u>For College Department</u></label>
+                        <div class="tw-inline"><input type="radio" name="education" id="formEducationCollege" value="college"></div>
                     </th>
                     <th>
                         <br><br>
                     </th>
                     <tr>
                         <td>
-                            <label for="">Semester: </label>
-                            <input type="checkbox" name="" id="">
-                            <label for="">1st </label>
-                            <input type="checkbox" name="" id="">
-                            <label for="">2nd </label>
-                            <input type="checkbox" name="" id="">
-                            <label for="">Summer </label>
+                            <label for="formSemester">Semester: </label>
+                            <div class="select-wrapper">
+                                <select name="semester" id="formSemester" class="form-control">
+                                    <option value="" selected disabled>Select Semester</option>
+                                    <option value="1">1st Semester</option>
+                                    <option value="2">2nd Semester</option>
+                                    <option value="3">3rd Semester</option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="">Academic Year: </label>
+                            <label for="formAcademicYear">Academic Year: </label>
                             <div class="select-wrapper">
-                                <select name="" id="" class="form-control">
+                                <select name="academic_year" id="formAcademicYear" class="form-control">
                                     <option value="" selected disabled>Select Year</option>
-                                    <option value="">2024-2025</option>
-                                    <option value="">2025-2026</option>
-                                    <option value="">2026-2027</option>
+                                    <option value="<?= getCurrentRegisteredSchoolYear() ?>"><?= getCurrentRegisteredSchoolYear() ?> - <?= getCurrentRegisteredSchoolYear() + 1 ?></option>
                                 </select>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="">Program: </label>
+                            <label for="formDepartment">Department: </label>
                             <div class="select-wrapper">
-                                <select name="" id="" class="form-control">
-                                    <option value="" selected disabled>Select Program</option>
-                                    <option value="">BSIT</option>
-                                    <option value="">BSCS</option>
-                                    <option value="">BLIS</option>
-                                </select>
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Department: </label>
-                            <div class="select-wrapper">
-                                <select name="" id="" class="form-control">
+                                <select name="department" id="formDepartment" class="form-control">
                                     <option value="" selected disabled>Select Department</option>
-                                    <option value="">CCIS</option>
-                                    <option value="">CTHM</option>
-                                    <option value="">CBM</option>
                                 </select>
                             </div>
-
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="formCourse">Course: </label>
+                            <div class="select-wrapper">
+                                <select name="program" id="formCourse" class="form-control">
+                                    <option value="" selected disabled>Select Course</option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -192,19 +184,19 @@
 
         <div class="row text-center">
             <div class="col">
-                <input type="text" name="" id="surame" required class="form-control"><br>
+                <input type="text" name="last_name" id="formSurname" value="<?= AUTHUSER->getLastName() ?>" required readonly class="form-control tw-uppercase">
                 <label for=""><i>Surname</i></label>
             </div>
             <div class="col">
-                <input type="text" name="" id="" required class="form-control"><br>
+                <input type="text" name="first_name" id="formGivenName" value="<?= AUTHUSER->getFirstName() ?>" required readonly class="form-control tw-uppercase">
                 <label for=""><i>Given Name</i></label>
             </div>
             <div class="col">
-                <input type="text" name="" id="" required class="form-control"><br>
-                <label for=""><i>Middle Name</i></label>
+                <input type="text" name="middle_name" id="formMiddleName" value="<?= AUTHUSER->getMiddleInitial() ?>" required class="form-control tw-uppercase">
+                <label for=""><i>Middle Name (complete)</i></label>
             </div>
             <div class="col">
-                <input type="text" name="" id="" class="form-control"><br>
+                <input type="text" name="suffix_name" id="formAuxilliaryName" class="form-control tw-uppercase">
                 <label for=""><i>Auxilliary Name (Sr,Jr,I,II,III,etc.)</i></label>
             </div>
         </div>
@@ -214,17 +206,15 @@
             </div>
         </div>
 
-
-
         <div class="row">
             <div class="col table-responsive">
                 <table class="table table-light">
                     <tr>
-                        <td><label for="gender-select">Gender</label></td>
+                        <td><label for="formGender">Gender</label></td>
                         <td>
                             <div class="select-wrapper">
-                                <select name="gender" id="gender-select" class="form-control">
-                                    <option value="" selected disabled>Select Gender</option>
+                                <select name="gender" id="formGender" class="form-control">
+                                    <option value="gender" selected disabled>Select Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -232,10 +222,10 @@
                         </td>
                         <td><label for="age">Age</label></td>
                         <td><input type="number" name="age" id="age" class="form-control"></td>
-                        <td><label for="blood-type-select">Blood Type</label></td>
+                        <td><label for="formBloodType">Blood Type</label></td>
                         <td>
                             <div class="select-wrapper">
-                                <select name="bloodtype" id="bloodtype-select" class="form-control">
+                                <select name="bloodtype" id="formBloodType" class="form-control">
                                     <option value="" selected disabled>Select Blood Type</option>
                                     <option value="O+">O+</option>
                                     <option value="O-">O-</option>
@@ -254,14 +244,14 @@
                         <td><input type="number" name="height" id="height" class="form-control"></td>
                         <td><label for="weight">Weight (kg.)</label></td>
                         <td><input type="number" name="weight" id="weight" class="form-control"></td>
-                        <td><label for="civilstatus-select">Civil Status</label></td>
+                        <td><label for="formCivilStatus">Civil Status</label></td>
                         <td>
                             <div class="select-wrapper">
-                                <select name="civilstatus" id="civilstatus-select" class="form-control">
+                                <select name="civilstatus" id="formCivilStatus" class="form-control">
                                     <option value="" selected disabled>Select Status</option>
                                     <option value="single">Single</option>
                                     <option value="married">Married</option>
-                                    <option value="">Legally Separated</option>
+                                    <option value="legally separated">Legally Separated</option>
                                     <option value="widowed">Widowed</option>
                                 </select>
                             </div>
@@ -270,8 +260,6 @@
                 </table>
             </div>
         </div>
-
-
 
         <div class="row">
             <div class="col"><br></div>
@@ -1264,3 +1252,7 @@
                             </div>
     
     -->
+
+    <script>
+        var DEPARTMENTSANDCOURSES = JSON.parse(`<?= json_encode(getDepartmentsAndCourses()) ?>`);
+    </script>

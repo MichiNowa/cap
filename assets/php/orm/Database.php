@@ -6,7 +6,7 @@ use PDOException;
 use Smcc\Gcms\orm\models\Admin;
 use Smcc\Gcms\orm\models\Schoolyear;
 use Smcc\Gcms\orm\models\Users;
-use Smcc\Gcms\orm\models\Student;
+use Smcc\Gcms\orm\models\StudentCollege;
 use Smcc\Gcms\orm\models\Superadmin;
 
 class Database {
@@ -21,7 +21,7 @@ class Database {
     Users::class,
     Superadmin::class,
     Admin::class,
-    Student::class,
+    StudentCollege::class,
   ];
 
   private function __construct() {

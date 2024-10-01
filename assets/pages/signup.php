@@ -1,7 +1,7 @@
 <!-- regiuster form -->
 <div class="container fluid text-center justify-content-center">
     <div class="tw-flex tw-justify-center tw-items-start tw-mt-8">
-        <div class="tw-object-contain tw-p-4 tw-max-w-64 aspect-square">
+        <div class="tw-object-contain tw-p-4 tw-max-w-32 aspect-square">
             <img class="mb-4" src="<?= pathname('images/logo.jpg') ?>" alt="Guidance Logo">
         </div>
     </div>
@@ -15,7 +15,7 @@
                     <?php
                 }
             ?>
-            <div id="signup-form" class="w-100 <?= (showFormData('studentid')) && showFormData('first_name')&& showFormData('middle_initial') && showFormData('last_name') && showFormData('email') ? "" : "tw-hidden" ?>">
+            <div id="signup-form" class="w-100 <?= (isset($_SESSION['newuser']) || (showFormData('studentid')) && showFormData('first_name') && showFormData('middle_initial') && showFormData('last_name') && showFormData('email')) ? "" : "tw-hidden" ?>">
                 <form method="post" action="<?= pathname('api/post/signup') ?>">
                     <h1 class="h5 mb-3 text-muted">Register Account</h1>
                     
@@ -78,7 +78,7 @@
                     </div>
                 </form>
             </div>
-            <div id="qrscanner-root" class="tw-w-full tw-min-h-[300px] tw-flex tw-justify-center tw-items-center <?= (showFormData('studentid')) && showFormData('first_name')&& showFormData('middle_initial') && showFormData('last_name') && showFormData('email') ? "tw-hidden" : "" ?>">
+            <div id="qrscanner-root" class="tw-w-full tw-min-h-[300px] tw-flex tw-justify-center tw-items-center <?= (isset($_SESSION['newuser']) || (showFormData('studentid')) && showFormData('first_name')&& showFormData('middle_initial') && showFormData('last_name') && showFormData('email')) ? "tw-hidden" : "" ?>">
                 <?= showLoading() ?>
             </div>
         </div>

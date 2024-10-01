@@ -8,12 +8,25 @@
   </div>
 </footer>
 
+<?php
+if (!isset($_SESSION['backed'])) {
+?>
+</div>
+<?php } ?>
 <!-- links every page it is called to the scripts -->
-<script src="<?= pathname('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= pathname('vendor/jquery/jquery-3.7.1.min.js') ?>"></script>
-<script src="<?= pathname('vendor/jquery/jquery.timeago.js') ?>"></script>
+
 <script>
   var URI_PREFIX = "<?= URI_PREFIX ?>";
+  <?php
+    if (isset($_SESSION['backed'])) {
+      unset($_SESSION['backed']);
+    } else {
+  ?>
+  $(window).on('load', function() {
+    $("#loading-spinner").fadeOut(500);
+    $("#content-body").fadeIn(500);
+  });
+  <?php } ?>    
 </script>
 
 <?php if (isset($scripts)) {

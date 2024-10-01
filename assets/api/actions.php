@@ -1,7 +1,7 @@
 <?php
 
 //for managing signup
-if (PAGE_URI === pathname('/api/post/signup')) {
+if (is_current_path('/api/post/signup')) {
   $response = validateSignupForm($_POST);
   if ($response['status']) {
     if (createUser($_POST)) {
@@ -22,7 +22,7 @@ if (PAGE_URI === pathname('/api/post/signup')) {
 
 
 //for managing login
-if (PAGE_URI === pathname('/api/post/login')) {
+if (is_current_path('/api/post/login')) {
   $response = validateLoginForm($_POST);
   if ($response['status']) {
     $_SESSION['Auth'] = true;
@@ -38,7 +38,7 @@ if (PAGE_URI === pathname('/api/post/login')) {
 
 
 //for logout the user
-if (PAGE_URI === pathname('/api/post/logout')) {
+if (is_current_path('/api/post/logout')) {
   session_destroy();
   redirect("/");
 }

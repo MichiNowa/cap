@@ -2,6 +2,7 @@
 require_once 'config.php';
 
 use Smcc\Gcms\orm\Database;
+use Smcc\Gcms\orm\models\Schoolyear;
 use Smcc\Gcms\orm\models\Users;
 
 // initialize the database connection
@@ -90,8 +91,9 @@ function back($status = 302)
   $prefix = URI_PREFIX;
   if (isset($_SESSION['prev_url'])) {
     $previousUrl = $_SESSION['prev_url'];
-    unset($_SESSION['prev_url']);;
-    header("Location: {$prefix}$previousUrl", true, $status);
+    unset($_SESSION['prev_url']);
+    $_SESSION['backed'] = true;
+    header("Location: $previousUrl", true, $status);
     exit;
   } else {
     // Fallback URL if no previous URL is found
@@ -100,11 +102,16 @@ function back($status = 302)
   }
 }
 
+function is_current_path($pathname): bool
+{
+  return PAGE_URI === pathname($pathname);
+}
+
 // function for redirect to specific page
 function redirect($pathname, $status = 302)
 {
-  $prefix = URI_PREFIX;
-  header("Location: {$prefix}$pathname", true, $status);
+  $p = pathname($pathname);
+  header("Location: $p", true, $status);
   exit;
 }
 
@@ -140,12 +147,13 @@ function responseJSON($data, $statusCode = 200)
 }
 
 //function for show prevformdata
-function showFormData($field)
+function showFormData($field): string
 {
   if (isset($_SESSION['formdata'])) {
     $formdata = $_SESSION['formdata'];
     return $formdata[$field];
   }
+  return '';
 }
 
 //function for showing loading component
@@ -154,6 +162,65 @@ function showLoading()
   ob_start();
   require_once import("assets/components/loading.php");
   return ob_get_clean();
+}
+
+//function for showing banner alert
+function showBanner(string $banner_title, string $banner_message)
+{
+  ob_start();
+  require_once import("assets/components/banner.php");
+  return ob_get_clean();
+}
+
+//
+function getCurrentRegisteredSchoolYear()
+{
+  $p = array_map(fn($sy) => array_column($sy, 'year'), Schoolyear::all());
+  return count($p) === 0 ? date('Y') : max(...$p);
+}
+
+//
+function getDepartmentsAndCourses()
+{
+  return [
+    'College of Arts and Sciences' => [
+      'Bachelor of Arts Major in English Language',
+    ],
+    'College of Business Management' => [
+      'Bachelor of Science in Business Administration Major in Financial Management',
+      'Bachelor of Science in Business Administration Major in Human Resource Management',
+      'Bachelor of Science in Business Administration Major in Marketing Management',
+      'Bachelor of Public Administration',
+      'Bachelor of Science in Enterpreneurship',
+    ],
+    'College of Computing and Information Sciences' => [
+      'Bachelor of Science in Information Technology',
+      'Bachelor of Science in Computer Science',
+      'Bachelor of Library and Information Science',
+      'Diploma in Information Technology',
+    ],
+    'College of Criminal Justice Education' => [
+      'Bachelor of Science in Criminology',
+    ],
+    'College of Teacher Education' => [
+      'Bachelor of Elementary Education',
+      'Bachelor of Secondary Education Major in English',
+      'Bachelor of Secondary Education Major in Science',
+      'Bachelor of Secondary Education Major in Social Studies',
+      'Bachelor of Physical Education',
+      'Bachelor of Technical Vocational',
+      'Bachelor of Technical Vocational Teacher Education',
+      'Bachelor of Early Childhood Education',
+    ],
+    'College of Tourism and Hospitality Management' => [
+      'Bachelor of Science in Hospitality Management',
+      'Bachelor of Science in Tourism Management',
+      'Diploma in Hospitality Management Technology',
+      'Food and Beverage Services NC II',
+      'Housekeeping NC II',
+      "Ship's Catering Services NC II",
+    ],
+  ];
 }
 
 //for checking authentication

@@ -8,6 +8,9 @@ define('WORKSPACE_DIR', __DIR__);
 require WORKSPACE_DIR . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
+use Smcc\Gcms\orm\models\Admin;
+use Smcc\Gcms\orm\models\Student;
+
 try {
 // Initialize and load the .env file
 $dotenv = Dotenv::createImmutable(__DIR__, [".env", ".env.local"]);
@@ -31,12 +34,12 @@ try {
     '/test' => throw new Exception('ERROR!! Page not found!!'),
     '/' => redirect('/login'),
     '/home' => showPage('home', 'Home', ['user' => AUTHUSER], 'auth', ['auth']),
-    '/profile' => showPage('profile', 'Profile', ['user' => AUTHUSER], 'auth', ['auth']),
-    '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => AUTHUSER], 'auth', ['auth']),
+    '/profile' => showPage('profile', 'Profile', ['user' => AUTHUSER, 'scripts' => [pathname("js/inputProfile.js")]], 'auth', ['auth']),
+    '/assess' => showPage('assess', 'Self-Assessment Form', ['user' => AUTHUSER,], 'auth', ['auth']),
     '/feedback' => showPage('feedback', 'Feedback Form', ['user' => AUTHUSER], 'auth', ['auth']),
     '/notif' => showPage('notif', 'Notification', ['user' => AUTHUSER], 'auth', ['auth']),
     '/signup' => showPage('signup', 'Sign Up', ["scripts" => [pathname("js/react/signup.mjs")]], 'guest', ['guest']),
-    '/login' => showPage('login', 'Login', [], 'guest', ['guest']),
+    '/login' => showPage('login', 'Login', ["scripts" => [pathname("js/inputForm.js")]], 'guest', ['guest']),
     '/api/post/login' => showAPI('actions', 'POST'),
     '/api/post/signup' => showAPI('actions', 'POST'),
     '/api/post/logout' => showAPI('actions', 'POST'),

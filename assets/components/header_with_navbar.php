@@ -35,12 +35,24 @@
             cursor: pointer;
         }
     </style>
+    <!-- JQuery -->
+    <script src="<?= pathname('vendor/jquery/jquery-3.7.1.min.js') ?>"></script>
+    <!-- Bootstrap JS -->
+    <script src="<?= pathname('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <!-- Sweetalert2 JS -->
     <script src="<?= pathname('vendor/sweetalert2/sweetalert2.min.js') ?>"></script>
 
 </head>
 
 <body>
+<?php
+if (!isset($_SESSION['backed'])) {
+?>
+<div id="loading-spinner">
+    <img src="<?= pathname("images/logo.jpg"); ?>" alt="logo" class="tw-w-[150px] tw-h-[150px] tw-object-contain tw-animate-pulse tw-shadow tw-bg-white tw-p-4" />
+</div>
+<div id="content-body">
+<?php } ?>
 
 <!--========== HEADER ==========-->
 <header class="header">

@@ -7,7 +7,7 @@ define('URI_PREFIX', $_ENV['URI_PREFIX'] ?? "/" . basename(dirname(dirname(__DIR
 define('PAGE_URI', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 define('CLEARED_PAGE_URI', str_replace(URI_PREFIX, "", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
 
-if ($_SERVER['REQUEST_METHOD'] == "GET" && !str_starts_with(PAGE_URI, "/api")) {
+if ($_SERVER['REQUEST_METHOD'] == "GET" && !str_starts_with(CLEARED_PAGE_URI, "/api")) {
   // check if uri is does not have file extension
   $uri = explode('/', PAGE_URI);
   $uri = array_pop($uri);

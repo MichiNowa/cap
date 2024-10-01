@@ -13,6 +13,23 @@
     color: rgb(99, 99, 99);
 }
 
+#loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(4, 23, 151);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+#content-body {
+    display: none;
+}
+
 /* .nav__link {
     cursor: pointer;
 } */

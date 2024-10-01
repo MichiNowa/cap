@@ -3,13 +3,11 @@
 namespace Smcc\Gcms\orm\models;
 use DateTime;
 
-class Student extends Model {
+class StudentCollege extends Model {
   public ?int $id;
   public int $user_id;
-  public ?string $departmentstrand;
-  public ?int $yeargradelevel;
-  public ?int $deanadviser;
-  public ?int $schoolyear_id;
+  public int $gradelevel;
+  public int $schoolyear_id;
   public ?string $created_at;
   public ?string $updated_at;
 
@@ -21,21 +19,17 @@ class Student extends Model {
   {
     return $this->user_id;
   }
-  public function getDepartmentStrand(): string
+  public function getGradeLevel(): int
   {
-    return $this->departmentstrand;
-  }
-  public function getYearGradeLevel(): int
-  {
-    return $this->yeargradelevel;
+    return $this->gradelevel;
   }
   public function getSchoolyearId(): int
   {
     return $this->schoolyear_id;
   }
-  public function getDeanAdviser(): string
+  public function getDean(): string
   {
-    return $this->deanadviser;
+    return $this->dean;
   }
   public function getCreatedAt(): DateTime {
     return new DateTime($this->created_at);
@@ -49,9 +43,7 @@ class Student extends Model {
     return [
       "id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY",
       "user_id BIGINT NOT NULL",
-      "departmentstrand VARCHAR(255)",
-      "yeargradelevel INT(2)",
-      "deanadviser VARCHAR(255)",
+      "gradelevel INT(2) NOT NULL",
       "schoolyear_id BIGINT",
       "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
       "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
