@@ -15,8 +15,18 @@ if (!isset($_SESSION['backed'])) {
 <?php } ?>
 <!-- links every page it is called to the scripts -->
 
+<!-- JQuery -->
+<script src="<?= pathname('vendor/jquery/jquery-3.7.1.min.js') ?>"></script>
+<!-- Bootstrap JS -->
+<script src="<?= pathname('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+
 <script>
-  var URI_PREFIX = "<?= URI_PREFIX ?>";
+  window.URI_PREFIX = "<?= URI_PREFIX ?>";
+  window.PAGE_DATA = {};
+  function pathname(path) {
+    return new URL(URI_PREFIX + path, window.location.origin).toString();
+  }
+  window.pathname = pathname;
   <?php
     if (isset($_SESSION['backed'])) {
       unset($_SESSION['backed']);
@@ -26,7 +36,19 @@ if (!isset($_SESSION['backed'])) {
     $("#loading-spinner").fadeOut(500);
     $("#content-body").fadeIn(500);
   });
-  <?php } ?>    
+  <?php } ?>
+  function fetchPageData() {
+    $.get(pathname("/api/get/pagedata"))
+      .done(function ({ data }) {
+        if (data) {
+          PAGE_DATA = JSON.parse(data);
+        }
+      })
+      .fail(function (jqXHR, textStatus) {
+        console.error("Request failed: " + textStatus);
+      });
+  }
+  fetchPageData();
 </script>
 
 <?php if (isset($scripts)) {

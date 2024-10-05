@@ -16,6 +16,7 @@ class Users extends Model
   public string $email;
   public string $profile_pic;
   public string $role;
+  public bool $status;
   public ?string $created_at;
   public ?string $updated_at;
 
@@ -29,7 +30,7 @@ class Users extends Model
     return password_verify($password, $this->password);
   }
 
-  public function getId(): int
+  public function getId(): int|string
   {
     return $this->id;
   }
@@ -69,6 +70,10 @@ class Users extends Model
   {
     return $this->role;
   }
+  public function getStatus(): bool
+  {
+    return $this->status;
+  }
   public function getCreatedAt(): DateTime
   {
     return new DateTime($this->created_at);
@@ -87,15 +92,15 @@ class Users extends Model
       "first_name VARCHAR(255) NOT NULL",
       "middle_initial VARCHAR(255)",
       "last_name VARCHAR(255) NOT NULL",
-      "gender ENUM('male', 'female', 'other') DEFAULT 'male'",
+      "gender ENUM('Male', 'Female', 'Other') DEFAULT 'Male'",
       "email VARCHAR(255) NOT NULL UNIQUE",
       "profile_pic VARCHAR(255) DEFAULT ''",
-      "role ENUM('admin', 'teacher', 'student') DEFAULT 'student'",
+      "role ENUM('superadmin', 'admin', 'student') DEFAULT 'student'",
+      "status BOOLEAN DEFAULT TRUE",
       "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
       "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
     ];
   }
-
   public function getForeignConstraints(): array
   {
     return [];

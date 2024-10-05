@@ -74,17 +74,17 @@ class Model implements BaseModel
     $result = $db->query("SELECT * FROM $tablename WHERE $col =?", [$value]);
     switch (count($result)) {
       case 0:
-        return null;
+        return [];
       default: {
-          $models = [];
+          $modelRows = [];
           foreach ($result as $row) {
             $model = new static();
-            foreach ($result as $key => $value) {
+            foreach ($row as $key => $value) {
               $model->{$key} = $value;
             }
-            $models[] = $model;
+            $modelRows[] = $model;
           }
-          return $models;
+          return $modelRows;
         }
     }
   }
@@ -98,12 +98,12 @@ class Model implements BaseModel
       case 0:
         return null;
       default: {
-          $model = new static();
-          foreach ($result[0] as $key => $value) {
-            $model->{$key} = $value;
-          }
-          return $model;
+        $model = new static();
+        foreach ($result[0] as $key => $value) {
+          $model->{$key} = $value;
         }
+        return $model;
+      }
     }
   }
 
@@ -130,7 +130,6 @@ class Model implements BaseModel
     }
     // check if primary key exists
     if (isset($data[$primaryKey])) {
-      $db->query("SELECT $primaryKey FROM $tablename WHERE $primaryKey =?", [$this->{$column}]);
       return $db->update(self::getTableName(), $data, $primaryKey);
     }
     return $db->insert(self::getTableName(), $data, $primaryKey);

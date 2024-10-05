@@ -4,11 +4,16 @@ namespace Smcc\Gcms\orm\models;
 use DateTime;
 
 class Schoolyear extends Model {
-  public int $year;
+  public ?int $id;
+  public int|string $year;
   public ?string $created_at;
   public ?string $updated_at;
 
-  public function getYear(): int
+  public function getId(): int|string
+  {
+    return $this->id;
+  }
+  public function getYear(): int|string
   {
     return $this->year;
   }
@@ -21,12 +26,14 @@ class Schoolyear extends Model {
   public function getCreateTable(): array
   {
     return [
-      "year YEAR NOT NULL PRIMARY KEY",
+      "id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY",
+      "year YEAR NOT NULL",
       "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
       "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
     ];
   }
-  public function getForeignConstraints(): array {
+  public function getForeignConstraints(): array
+  {
     return [];
   }
 }

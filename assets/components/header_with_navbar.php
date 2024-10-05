@@ -16,7 +16,7 @@
     <link href="<?= pathname('vendor/bootstrap/icons/bootstrap-icons.css') ?>" rel="stylesheet">
     <!-- Sweetalert2 CSS -->
     <link href="<?= pathname('vendor/sweetalert2/sweetalert2.min.css')?>" rel="stylesheet">
-    
+
     <!--========== CDN ==========-->
     <link rel="stylesheet" href="<?= pathname('vendor/boxicons/boxicons.min.css') ?>">
 
@@ -35,10 +35,6 @@
             cursor: pointer;
         }
     </style>
-    <!-- JQuery -->
-    <script src="<?= pathname('vendor/jquery/jquery-3.7.1.min.js') ?>"></script>
-    <!-- Bootstrap JS -->
-    <script src="<?= pathname('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <!-- Sweetalert2 JS -->
     <script src="<?= pathname('vendor/sweetalert2/sweetalert2.min.js') ?>"></script>
 
@@ -49,7 +45,7 @@
 if (!isset($_SESSION['backed'])) {
 ?>
 <div id="loading-spinner">
-    <img src="<?= pathname("images/logo.jpg"); ?>" alt="logo" class="tw-w-[150px] tw-h-[150px] tw-object-contain tw-animate-pulse tw-shadow tw-bg-white tw-p-4" />
+<img src="<?= pathname("images/guidance-logo-loader.png"); ?>" alt="logo" class="tw-w-[150px] tw-h-[150px] tw-object-contain tw-animate-pulse tw-bg-transparent tw-p-4" />
 </div>
 <div id="content-body">
 <?php } ?>
@@ -58,7 +54,7 @@ if (!isset($_SESSION['backed'])) {
 <header class="header">
     <div class="header__container">
         <?php if ($user) { ?>
-            <img src="<?= pathname('images/profile', $user->profile_pic ?? "") ?>.jpg') ?>" alt="" class="header__img">
+            <img src="<?= pathname(!$user->profile_pic ? "images/default-user.png" : $user->profile_pic) ?>" alt="" class="header__img">
         <?php } else { ?>
             <a href="<?= pathname('login') ?>" class="header__link">Login</a>
         <?php } ?>
@@ -70,7 +66,7 @@ if (!isset($_SESSION['backed'])) {
         </div> -->
 
         <div class="header__toggle">
-            <i class='bx bx-menu' id="header-toggle"></i>
+        <i class='bx bx-menu' id="header-toggle"></i>
         </div>
     </div>
 </header>

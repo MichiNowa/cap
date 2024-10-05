@@ -17,9 +17,9 @@ function import($path): string
   return $path;
 }
 
-function getSearchParam($key)
+function getSearchParam(string $key)
 {
-  return isset($_GET[$key]) ? $_GET[$key] : null;
+  return $_GET[$key] ?? null;
 }
 
 //function for showing pages
@@ -29,7 +29,7 @@ function showPage($view, $page_title, $data = [], $layout = 'guest', $middleware
     // Check if middleware is valid
     $middlewareFile = import("/assets/middleware/{$middleware}.php");
     if (file_exists($middlewareFile) && is_file($middlewareFile)) {
-      require_once $middlewareFile;
+      require $middlewareFile;
     }
   }
   if (!isset($data["scripts"])) {
@@ -37,19 +37,22 @@ function showPage($view, $page_title, $data = [], $layout = 'guest', $middleware
   }
   // Extract the data array into variables
   extract($data);
+  // put the $data into SESSION['page_data']
+  $_SESSION['page_data'] = json_encode($data);
+
   ob_start();
-  require_once import("assets/pages/{$view}.php");
+  require import("assets/pages/{$view}.php");
   $content = ob_get_clean();
   $page_title = APP_TITLE . " - " . $page_title;
   // Include the layout file
-  require_once import("assets/layouts/{$layout}.php");
+  require import("assets/layouts/{$layout}.php");
 }
 
 function showAPI($endpoint, $method = 'GET', $data = [])
 {
   if ($_SERVER['REQUEST_METHOD'] == $method) {
     extract($data);
-    require_once import("assets/api/{$endpoint}.php");
+    require import("assets/api/{$endpoint}.php");
   }
 }
 
@@ -160,23 +163,39 @@ function showFormData($field): string
 function showLoading()
 {
   ob_start();
-  require_once import("assets/components/loading.php");
+  require import("assets/components/loading.php");
   return ob_get_clean();
 }
 
+enum BannerStatus: int
+{
+  case INFO = 0;
+  case WARNING = 1;
+  case ERROR = 2;
+}
+
 //function for showing banner alert
-function showBanner(string $banner_title, string $banner_message)
+function showBanner(string $banner_title, string $banner_message, BannerStatus $banner_state = BannerStatus::INFO)
 {
   ob_start();
-  require_once import("assets/components/banner.php");
+  require import("assets/components/banner.php");
   return ob_get_clean();
 }
 
 //
-function getCurrentRegisteredSchoolYear()
+function getCurrentRegisteredSchoolYear(int $add = 0): int
 {
   $p = array_map(fn($sy) => array_column($sy, 'year'), Schoolyear::all());
-  return count($p) === 0 ? date('Y') : max(...$p);
+  return (count($p) === 0 ? date('Y') : intval(max(...$p))) + $add;
+}
+
+//
+function getGenders()
+{
+  return [
+    'Male',
+    'Female',
+  ];
 }
 
 //
@@ -221,6 +240,103 @@ function getDepartmentsAndCourses()
       "Ship's Catering Services NC II",
     ],
   ];
+}
+
+//
+function getCivilStatuses()
+{
+  return [
+    'Single',
+    'Married',
+    'Legally Separated',
+    'Widowed',
+  ];
+}
+
+function getTypesOfEmployee()
+{
+  return [
+    'Government',
+    'Entreprenuer',
+    'Private',
+    'NGO',
+    'Self-Employed',
+    'OFW',
+    'Others, pls specify'
+  ];
+}
+
+function getEducationAttaiments()
+{
+  return [
+    "Primary School",
+    "Secondary School",
+    "Junior High School",
+    "Senior High School",
+    "Vocational or TESDA (Diploma)",
+    "Undergraduate (Bachelor’s Degree)",
+    "Postgraduate (Master’s Degree)",
+    "Doctoral (PhD)",
+  ];
+}
+
+function getMaritalStatuses()
+{
+  return [
+    "Married in Church",
+    "Mother Remarried",
+    "Father Remarried",
+    "Single Parents",
+    "Married Civilly",
+    "Father Remarried",
+    "If Separated, with whom do you stay:",
+  ];
+}
+
+function getEducationSupports()
+{
+  return [
+    "Mother",
+    "Father",
+    "Both Parents",
+    "Self-supporting",
+    "Working Student",
+    "Lola/Lolo",
+    "Aunt/Uncle",
+    "Brother/Sister",
+    "Educational Plan",
+    "NGO",
+    "Private",
+    "Foreign",
+  ];
+}
+
+enum PrintForms: string
+{
+  case CALLED_SLIP = "called_slip";
+  case CASE_NOTES = "case_notes";
+  case STUDENT_ASSESSMENT = "student_assessment";
+  case STUDENT_FEEDBACK = "student_feedback";
+  case STUDENT_PROFILE = "student_profile";
+}
+
+function getPrintForms()
+{
+  return array_map(fn($pf) => $pf->value, PrintForms::cases());
+}
+
+function getPrintButton(array $data = [], PrintForms $printForm = PrintForms::CALLED_SLIP)
+{
+?>
+  <button class="btn btn-primary tw-cursor-pointer print-btn" data-query="form=<?= $printForm->value ?>&<?= implode("&", array_map(fn($k) => $k . "=" . $data[$k], array_keys($data))) ?>"><i class="bx bx-printer"></i><span class="tw-ml-1"></span class="">Print</span></button>
+<?php
+}
+
+function getModalDisplay(string $id, callable|string $title, callable|string $displayContent)
+{
+  ob_start();
+  require import("assets/components/modal.php");
+  return ob_get_clean();
 }
 
 //for checking authentication
@@ -300,6 +416,168 @@ function validateSignupForm($form_data)
   return $response;
 }
 
+function openSchoolYear($form_data)
+{
+  $response = ['status' => true];
+  if (!$form_data['year']) {
+    $response['msg'] = "Please select a school year";
+    $response['status'] = false;
+  } else {
+    $sy = Schoolyear::findOne('year', $form_data['year']);
+    if (!$sy) {
+      // create a new school year
+      $sy = new Schoolyear();
+      $sy->year = $form_data['year'];
+      $sy->save();
+      $response['msg'] = "School year has been created successfully";
+      $response['sy'] = $sy->getYear();
+    } else {
+      $response['msg'] = "School year already exists";
+      $response['status'] = false;
+    }
+  }
+  return $response;
+}
+
+function addAdminAccount($form_data)
+{
+  $response = ['status' => true];
+  if (
+    !$form_data['username'] || !$form_data['first_name'] ||
+    !$form_data['last_name'] || !$form_data['email'] || $form_data['role'] !== 'admin' || !$form_data['gender']
+  ) {
+    $response['msg'] = "Please fill all required fields";
+    $response['status'] = false;
+  } else {
+    if (!Users::findOne('username', $form_data['username'])) {
+      $account = new Users();
+      $account->username = $form_data['username'];
+      $account->first_name = $form_data['first_name'];
+      $account->middle_initial = $form_data['middle_initial'] ?? '';
+      $account->last_name = $form_data['last_name'];
+      $account->email = $form_data['email'];
+      $account->role = $form_data['role'];
+      $account->gender = $form_data['gender'];
+      $account->status = true;
+      $account->profile_pic = "images/default-user.png";
+      $account->setPassword(substr($form_data['last_name'], 0, 1) . substr($form_data['first_name'], 0, 1) . $form_data['username']);
+      $created = $account->save();
+      if (!$created) {
+        $response['msg'] = "Failed to create account";
+        $response['status'] = false;
+      } else {
+        $response['msg'] = "Admin Account created successfully";
+      }
+    } else {
+      $response['msg'] = "Employee ID exists";
+      $response['status'] = false;
+    }
+  }
+  return $response;
+}
+
+function editAdminAccount($form_data)
+{
+  $response = ['status' => true];
+  if (
+    !$form_data['username'] || !$form_data['first_name'] ||
+    !$form_data['last_name'] || !$form_data['email'] || $form_data['role'] !== 'admin' || !$form_data['gender']
+  ) {
+    $response['msg'] = "Please fill all required fields";
+    $response['status'] = false;
+  } else {
+    $account = Users::findOne('username', $form_data['username']);
+    if (!$account) {
+      $response['msg'] = "User not found";
+      $response['status'] = false;
+    } else {
+      $account->first_name = $form_data['first_name'];
+      $account->middle_initial = $form_data['middle_initial'] ?? '';
+      $account->last_name = $form_data['last_name'];
+      $account->email = $form_data['email'];
+      $account->gender = $form_data['gender'];
+      if ($form_data['password']) {
+        $account->setPassword($form_data['password']);
+      }
+      $updated = $account->save();
+      if (!$updated) {
+        $response['msg'] = "Failed to update account";
+        $response['status'] = false;
+      } else {
+        $response['msg'] = "Admin Account updated successfully";
+      }
+    }
+  }
+  return $response;
+}
+
+function setAccountActive($form_data, bool $active)
+{
+  $response = ['status' => true];
+  if (
+    !$form_data['id']
+  ) {
+    $response['msg'] = "Invalid Request";
+    $response['status'] = false;
+  } else {
+    $u = Users::findOne('id', $form_data['id']);
+    if (!$u) {
+      $response['msg'] = "User not found";
+      $response['status'] = false;
+    } else if ((!$u->status && !$active) && ($u->status && $active)) {
+      $response['msg'] = "Already " . $active ? "active" : "inactive";
+      $response['status'] = false;
+    } else {
+      $u->status = $active;
+      try {
+        $saved = $u->save();
+        if (!$saved) {
+          $response['msg'] = "Failed to set status " . $active;
+          $response['status'] = false;
+        } else {
+          $response['msg'] = "Successfully set status " . $active;
+        }
+      } catch (\Throwable $e) {
+        $response['msg'] = "An error occurred while saving the status: ". $e->getMessage();
+        $response['status'] = false;
+      }
+    }
+  }
+  return $response;
+}
+
+function editStudentAccount($form_data)
+{
+  $response = ['status' => true];
+  if (
+    !$form_data['username'] || !$form_data['first_name'] ||
+    !$form_data['last_name'] || !$form_data['email'] || $form_data['role'] !== 'student' || !$form_data['gender']
+  ) {
+    $response['msg'] = "Please fill all required fields";
+    $response['status'] = false;
+  } else {
+    $account = Users::findOne('username', $form_data['username']);
+    if (!$account) {
+      $response['msg'] = "User not found";
+      $response['status'] = false;
+    } else {
+      $account->email = $form_data['email'];
+      $account->gender = $form_data['gender'];
+      if ($form_data['password']) {
+        $account->setPassword($form_data['password']);
+      }
+      $updated = $account->save();
+      if (!$updated) {
+        $response['msg'] = "Failed to update account";
+        $response['status'] = false;
+      } else {
+        $response['msg'] = "Student Account updated successfully";
+      }
+    }
+  }
+  return $response;
+}
+
 
 //for validate the login form
 function validateLoginForm($form_data)
@@ -321,18 +599,24 @@ function validateLoginForm($form_data)
     $response['field'] = 'studentid';
     $blank = true;
   }
-  $checked = checkUser($form_data);
-  if (!$blank && !$checked['status']) {
-    $response['msg'] = "Login Failed. Please try again :(";
+  $isactive = checkUserActive($form_data);
+  if (!$blank && !$isactive['status']) {
+    $response['msg'] = "Login Failed. Account is deactivated";
     $response['status'] = false;
     $response['field'] = 'checkuser';
   } else {
-    $response['user'] = $checked;
+    $checked = checkUser($form_data);
+    if (!$blank && !$checked['status']) {
+      $response['msg'] = "Login Failed. Please try again :(";
+      $response['status'] = false;
+      $response['field'] = 'checkuser';
+    } else {
+      $response['user'] = $checked;
+    }
   }
 
   return $response;
 }
-
 
 //for checking the user
 function checkUser($login_data)
@@ -343,6 +627,18 @@ function checkUser($login_data)
     $data = $user->toArray();
     $data['status'] = true;
     unset($data['password']);
+  }
+
+  return $data;
+}
+
+function checkUserActive($login_data)
+{
+  $user = Users::findOne("username", $login_data['studentid']);
+  $data = ['status' => false];
+  if ($user && $user->status) {
+    $data = $user->toArray();
+    $data['status'] = true;
   }
 
   return $data;
@@ -361,7 +657,7 @@ function getSidebarLinks($role)
   return match ($role) {
     "student" => [
       [
-        "title" => "Menu",
+        "title" => "Student",
         "children" => [
           ["label" => "Home", "href" => pathname("home"), "icon" => "bx bx-home"],
           ["label" => "Student's Profile", "href" => pathname("profile"), "icon" => "bx bx-user"],
@@ -377,8 +673,69 @@ function getSidebarLinks($role)
         ]
       ]
     ],
-    "admin" => [],
-    "superadmin" => [],
+    "admin" => [
+      [
+        "title" => "Admin",
+        "children" => [
+          ["label" => "Dashboard", "href" => pathname("dashboard"), "icon" => "bx bx-dashboard"],
+          [
+            "label" => "Junior High Profile",
+            "icon" => "bx bxs-user-detail",
+            "children" => [
+              ["label" => "Grade 7", "href" => pathname("profile/grade7")],
+              ["label" => "Grade 8", "href" => pathname("profile/grade8")],
+              ["label" => "Grade 9", "href" => pathname("profile/grade9")],
+              ["label" => "Grade 10", "href" => pathname("profile/grade10")],
+            ]
+          ],
+          [
+            "label" => "Senior High Profile",
+            "icon" => "bx bxs-user-detail",
+            "children" => [
+              ["label" => "Grade 11", "href" => pathname("profile/grade11")],
+              ["label" => "Grade 12", "href" => pathname("profile/grade12")],
+            ]
+          ],
+          [
+            "label" => "College Profile",
+            "icon" => "bx bxs-user-detail",
+            "children" => [
+              ["label" => "1st Year", "href" => pathname("profile/college1")],
+              ["label" => "2nd Year", "href" => pathname("profile/college2")],
+              ["label" => "3rd Year", "href" => pathname("profile/college3")],
+              ["label" => "4th Year", "href" => pathname("profile/college4")],
+            ]
+          ],
+          ["label" => "No Profiles", "href" => pathname("profile/no-profiles"), "icon" => "bx bxs-user-detail"],
+          ["label" => "Case Notes", "href" => pathname("case-notes"), "icon" => "bx bxs-file"],
+          ["label" => "Assessment Form", "href" => pathname("assessment/manage"), "icon" => "bx bxs-file"],
+        ],
+        [
+          "title" => "Profile",
+          "children" => [
+            ["label" => "Notification", "href" => pathname("notif"), "icon" => "bx bxs-bell"],
+            ["label" => "Settings", "href" => pathname("settings"), "icon" => "bx bx-slider"],
+          ]
+        ]
+      ]
+    ],
+    "superadmin" => [
+      [
+        "title" => "Super Admin",
+        "children" => [
+          ["label" => "School Year", "href" => pathname("schoolyear"), "icon" => "bx bx-home"],
+          ["label" => "Admin Accounts", "href" => pathname("accounts/admin"), "icon" => "bx bxs-user-detail"],
+          ["label" => "Student Accounts", "href" => pathname("accounts/student"), "icon" => "bx bxs-user-detail"],
+        ],
+      ],
+      [
+        "title" => "Profile",
+        "children" => [
+          ["label" => "Notification", "href" => pathname("notif"), "icon" => "bx bxs-bell"],
+          ["label" => "Settings", "href" => pathname("settings"), "icon" => "bx bx-slider"],
+        ]
+      ]
+    ],
     default => []
   };
 }
@@ -393,7 +750,8 @@ function createUser($data)
   $user->last_name = $data['last_name'];
   $user->email = $data['email'];
   $user->gender = $data['gender'];
-  $user->profile_pic = pathname("images/default_profile.jpg");
+  $user->profile_pic = "images/default-user.png";
+  $user->status = true;
   $user->setPassword($data['password']);
   return boolval($user->save());
 }
@@ -452,7 +810,6 @@ function validateUpdateForm($form_data, $image_data)
 
 
 //function for updating profile
-
 function updateProfile($data, $imagedata)
 {
   global $db;

@@ -5,23 +5,25 @@ use PDO;
 use PDOException;
 use Smcc\Gcms\orm\models\Admin;
 use Smcc\Gcms\orm\models\Schoolyear;
+use Smcc\Gcms\orm\models\StudentBasic;
 use Smcc\Gcms\orm\models\Users;
 use Smcc\Gcms\orm\models\StudentCollege;
+use Smcc\Gcms\orm\models\StudentProfile;
 use Smcc\Gcms\orm\models\Superadmin;
 
 class Database {
   private static $instance = null;
   private ?PDO $db = null;
-  private string $host = DB_HOST;
-  private string $dbname = DB_NAME;
-  private string $user = DB_USER;
-  private string $pass = DB_PASS;
+  private string $host = DB_HOST ?? 'localhost';
+  private string $dbname = DB_NAME ?? 'gcms';
+  private string $user = DB_USER ?? 'root';
+  private string $pass = DB_PASS ?? '';
   private array $modelClasses = [
     Schoolyear::class,
     Users::class,
-    Superadmin::class,
-    Admin::class,
+    StudentProfile::class,
     StudentCollege::class,
+    StudentBasic::class,
   ];
 
   private function __construct() {
@@ -31,6 +33,26 @@ class Database {
     $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $this->createTables();
     $this->createForeignConstraints();
+  }
+
+  public static function createSeed() {
+    if (count(Users::findMany('role', 'superadmin')) === 0) {
+      if (Users::getRowCount(["username" => "superadmin"]) === 0) {
+        // create new account for superadmin
+        $user = new Users();
+        $user->username = "superadmin";
+        $user->setPassword("superadminpassword");
+        $user->first_name = "EDP";
+        $user->middle_initial = "";
+        $user->last_name = "Office";
+        $user->gender = "Male";
+        $user->email = "edp@smccnasipit.edu.ph";
+        $user->profile_pic = "images/default-user.png";
+        $user->role = "superadmin";
+        $user->status = true;
+        $user->save();
+      }
+    }
   }
 
   private function createTables() {
@@ -91,9 +113,11 @@ class Database {
   public function update(string $table, array $data, $primaryKey = "id"): bool
   {
     $this->db->beginTransaction();
-    $set = array_map(fn($k) => "$k=?", array_keys($data));
+    $keys = array_filter(array_keys($data), fn($af) => $af !== 'created_at' && $af !== 'updated_at' && $af !== $primaryKey);
+    $values = [...array_map(fn($k) => $data[$k], $keys), $data[$primaryKey]];
+    $set = array_map(fn($k) => "$k=?", $keys);
     $stmt = $this->db->prepare("UPDATE $table SET ". implode(", ", $set). " WHERE $primaryKey =?");
-    if ($stmt->execute(array_values($data) + [$data[$primaryKey]])) {
+    if ($stmt->execute($values)) {
       $this->db->commit();
       return true;
     }

@@ -19,23 +19,26 @@ if (is_current_path('/api/post/signup')) {
   }
 }
 
-
-
 //for managing login
 if (is_current_path('/api/post/login')) {
   $response = validateLoginForm($_POST);
   if ($response['status']) {
     $_SESSION['Auth'] = true;
     $_SESSION['userdata'] = $response['user'];
-    redirect("/home");
+    $role = getUser($_SESSION['userdata']['id'])->role;
+    redirect(
+      $role === 'superadmin'
+      ? "/schoolyear"
+      : ($role === 'admin'
+      ? "/dashboard"
+      : "/home")
+    );
   } else {
     $_SESSION['error'] = $response;
     $_SESSION['formdata'] = $_POST;
     back();
   }
 }
-
-
 
 //for logout the user
 if (is_current_path('/api/post/logout')) {

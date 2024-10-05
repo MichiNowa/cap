@@ -14,7 +14,7 @@ async function main() {
 
   runCommand('npm', ['run', 'watch:tailwind']);
 
-  await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for 2 second
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for second
 
   // Start the PHP server
   runCommand('php', ['-S', 'localhost:8000', 'index.php']);
